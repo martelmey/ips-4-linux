@@ -2,7 +2,8 @@
 Vagrant.configure("2") do |config|
 
 	config.vm.define "solaris" do |solaris|
-		solaris.vm.box = "FEBO/solaris-11.0"
+		solaris.vm.box = "jonatasbaldin/solaris11"
+		solaris.vm.box_version = "1.0.0"
 		solaris.vm.hostname = "solaris"
 		#solaris.vm.network "forwarded_port", guest: 22, host: 2201
 		#solaris.vm.network "private_network", ip: "192.168.12.17"

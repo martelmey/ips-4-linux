@@ -1,0 +1,66 @@
+>>>SOLARISREPO.SH
+root@sol-dev2:~/git/collectd# git apply ../collectd-plugins/add-splunk-plugins.patch
+error: patch failed: Makefile.am:1631
+error: Makefile.am: patch does not apply
+error: patch failed: configure.ac:6411
+error: configure.ac: patch does not apply
+error: patch failed: src/collectd.conf.in:115
+error: src/collectd.conf.in: patch does not apply
+
+root@sol-dev2:~/git/collectd# ./build.sh && ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10 && make
+Building...
+WARNING: `bison' not found!
+    Please make sure that `bison' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `autoheader' not found!
+    Please make sure that `autoheader' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `aclocal' not found!
+    Please make sure that `aclocal' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `automake' not found!
+    Please make sure that `automake' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `autoconf' not found!
+    Please make sure that `autoconf' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `pkg-config' not found!
+    Please make sure that `pkg-config' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: Neither `libtoolize' nor `glibtoolize' have been found!
+    Please make sure that one of them is installed and is in one of the
+    directories listed in the PATH environment variable.
+root@sol-dev2:~/git/collectd#
+
+>>>SPLUNKINDX.SH
+[root@ol7-splunk-indx collectd]# git apply ../collectd-plugins/add-splunk-plugins.patch
+error: patch failed: Makefile.am:1631
+error: Makefile.am: patch does not apply
+error: patch failed: configure.ac:6411
+error: configure.ac: patch does not apply
+error: patch failed: src/collectd.conf.in:115
+error: src/collectd.conf.in: patch does not apply
+
+[root@ol7-splunk-indx collectd]# ./build.sh && ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10 && make
+Building...
+WARNING: `lex' not found!
+    Please make sure that `lex' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `bison' not found!
+    Please make sure that `bison' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `autoheader' not found!
+    Please make sure that `autoheader' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `aclocal' not found!
+    Please make sure that `aclocal' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `automake' not found!
+    Please make sure that `automake' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: `autoconf' not found!
+    Please make sure that `autoconf' is installed and is in one of the
+    directories listed in the PATH environment variable.
+WARNING: Neither `libtoolize' nor `glibtoolize' have been found!
+    Please make sure that one of them is installed and is in one of the
+    directories listed in the PATH environment variable.
