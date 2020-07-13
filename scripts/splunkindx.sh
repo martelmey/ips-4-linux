@@ -10,19 +10,18 @@
     # \/ TRIAL July-11-Sat
     #write_splunk cross-compile
 yum -y install git gcc
-mkdir -p /root/git && cd /root/git #Anyway to get output dir of mkdir command instead?
+mkdir -p /root/git && cd /root/git
 git clone https://github.com/splunk/collectd-plugins.git
 git clone https://github.com/collectd/collectd.git
-cd collectd && git checkout collectd-5.11
-cp ../collectd-plugins/src/* src/
-    # \/ RE: solarisrepo.sh lines 36-27: unsuccessful on ol7 too
-    # \/ RE: solarisrepo.sh lines 36-27: fails @ git apply, all the same as other trials
+cd collectd && git checkout collectd-5.9
+cp -f ../collectd-plugins/src/* src/
 git apply ../collectd-plugins/add-splunk-plugins.patch
 ./build.sh && ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10 && make
 
     #splunk
 SPLUNKTAR=splunk.tgz
-wget -O "$SPLUNKTAR" 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.5&product=splunk&filename=splunk-8.0.5-a1a6394cc5ae-Linux-x86_64.tgz&wget=true'
+SPLUNKURL='https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.5&product=splunk&filename=splunk-8.0.5-a1a6394cc5ae-Linux-x86_64.tgz&wget=true'
+wget -O "$SPLUNKTAR" "$SPLUNKURL"
 tar -zxvf "$SPLUNKTAR" -C /opt
 chown --recursive splunk:splunk /opt/splunk/
     #Create splunk user
