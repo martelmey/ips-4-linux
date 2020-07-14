@@ -22,6 +22,9 @@
 #   scp -i ~/.ssh/ssh-key-2020-07-11.key install-repo.ksh opc@129.213.99.223:/export/home/opc
 #   scp -i ~/.ssh/ssh-key-2020-07-11.key sol-11_4-repo_digest.txt opc@129.213.99.223:/export/home/opc
 
+PKGKEY="/root/pkg.oracle.com.key.pem"
+PKGCERT="/root/pkg.oracle.com.certificate.pem"
+
     #housekeeping
 echo "export LANG=en_US.UTF-8">>/root/.profile 
 echo "export LC_ALL=en_US.UTF-8">>/root/.profile && source /root/.profile
@@ -34,9 +37,11 @@ svcadm refresh svc:/system/environment
     #setup support repo & install deps
 cd ~/
 mv /export/home/opc/* .
-pkg set-publisher -k pkg.oracle.com.key.pem -c pkg.oracle.com.certificate.pem -G "*" -g https://pkg.oracle.com/solaris/support/ solaris
+pkg set-publisher -k pkg.oracle.com.key.pem \
+-c pkg.oracle.com.certificate.pem \
+-G "*" -g https://pkg.oracle.com/solaris/support/ solaris
 pkg update --accept
-pkg install git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config
+pkg install bison git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config
 
     #csw setup
 pkgadd -d http://get.opencsw.org/now
@@ -71,7 +76,9 @@ git clone https://github.com/collectd/collectd.git
 cd collectd && git checkout collectd-5.9
 cp -f ../collectd-plugins/src/* src/
 git apply ../collectd-plugins/add-splunk-plugins.patch
-./build.sh && ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10 && make
+./build.sh
+./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
+make
 #make check-TESTS
 make install
 
@@ -83,3 +90,14 @@ zfs create -o atime=off rpool1/export/repoSolaris11
 mkdir -p /export/repoSolaris11/solaris
 ./install-repo.ksh -d /export/repoSolaris11/solaris -c -v -I
 zfs snapshot rpool/export/repoSolaris11/solaris@sol-11_4
+
+curl \
+--url <"https://pkg.oracle.com/solaris/support/"> \
+--cert "$PKGCERT" \
+--key "$PKGKEY" \
+#--key-type PEM 
+--output /root/remote_summary \
+#--proxy-anyauth \
+#--proxy#1.0 192.168.60.250:8008 \
+#--proxytunnel \
+#--trace#-ascii /root/remote_summary.trc

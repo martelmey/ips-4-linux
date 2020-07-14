@@ -1,0 +1,1 @@
+{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/MXANA/ips-4-linux","disabled":false,"__vagrantfile":true},"/ips":{"guestpath":"/ips","hostpath":"C:/Users/MXANA/ips","disabled":false,"__vagrantfile":true},"/oraclecloud":{"guestpath":"/oraclecloud","hostpath":"C:/Users/MXANA/Desktop/oraclecloud","disabled":false,"__vagrantfile":true}}}
