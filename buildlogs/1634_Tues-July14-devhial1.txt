@@ -1,0 +1,887 @@
++++
+=== +++
+=== ===
+=== === === +++
+=== +++ BUILD
+=== === === +++
+=== ===
+=== +++
++++
+
+root@dev-hial1:~/collectd# ./build.sh
+Building...
++ autoheader
++ aclocal -I m4
++ libtoolize --copy --force
+libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
+libtoolize: copying file 'build-aux/ltmain.sh'
+libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+libtoolize: copying file 'm4/libtool.m4'
+libtoolize: copying file 'm4/ltoptions.m4'
+libtoolize: copying file 'm4/ltsugar.m4'
+libtoolize: copying file 'm4/ltversion.m4'
+libtoolize: copying file 'm4/lt~obsolete.m4'
++ automake --add-missing --copy
+configure.ac:14: installing 'build-aux/compile'
+configure.ac:14: installing 'build-aux/config.guess'
+configure.ac:14: installing 'build-aux/config.sub'
+configure.ac:16: installing 'build-aux/install-sh'
+configure.ac:16: installing 'build-aux/missing'
+Makefile.am: installing 'build-aux/depcomp'
+configure.ac: installing 'build-aux/ylwrap'
+parallel-tests: installing 'build-aux/test-driver'
++ autoconf
+
++++
+=== +++
+=== ===
+=== === === +++
+=== +++ CONFIGURE
+=== === === +++
+=== ===
+=== +++
++++
+
+
+root@dev-hial1:~/collectd# ./configure \
+> --build=sparc-sun-solaris2.10 \
+> --host=sparc-sun-solaris2.10 \
+> --target=sparc-sun-solaris2.10
+checking build system type... sparc-sun-solaris2.10
+checking host system type... sparc-sun-solaris2.10
+checking how to print strings... print -r
+checking for sparc-sun-solaris2.10-gcc... no
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking whether gcc understands -c and -o together... yes
+checking for a sed that does not truncate output... /opt/csw/bin/gsed
+checking for grep that handles long lines and -e... /opt/csw/bin/ggrep
+checking for egrep... /opt/csw/bin/ggrep -E
+checking for fgrep... /opt/csw/bin/ggrep -F
+checking for ld used by gcc... /usr/ccs/bin/ld
+checking if the linker (/usr/ccs/bin/ld) is GNU ld... no
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -p
+checking the name lister (/usr/bin/nm -p) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572480
+checking how to convert sparc-sun-solaris2.10 file names to sparc-sun-solar                                                                                is2.10 format... func_convert_file_noop
+checking how to convert sparc-sun-solaris2.10 file names to toolchain forma                                                                                t... func_convert_file_noop
+checking for /usr/ccs/bin/ld option to reload object files... -r
+checking for sparc-sun-solaris2.10-objdump... no
+checking for objdump... no
+checking how to recognize dependent libraries... pass_all
+checking for sparc-sun-solaris2.10-dlltool... no
+checking for dlltool... no
+checking how to associate runtime and link libraries... print -r --
+checking for sparc-sun-solaris2.10-ar... no
+checking for ar... ar
+checking for archiver @FILE support... no
+checking for sparc-sun-solaris2.10-strip... no
+checking for strip... strip
+checking for sparc-sun-solaris2.10-ranlib... no
+checking for ranlib... ranlib
+checking for gawk... gawk
+checking command to parse /usr/bin/nm -p output from gcc object... failed
+checking for sysroot... no
+checking for a working dd... /usr/bin/dd
+checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
+checking for sparc-sun-solaris2.10-mt... no
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC -DPIC
+checking if gcc PIC flag -fPIC -DPIC works... yes
+checking if gcc static flag -static works... no
+checking if gcc supports -c -o file.o... yes
+checking if gcc supports -c -o file.o... (cached) yes
+checking whether the gcc linker (/usr/ccs/bin/ld) supports shared libraries                                                                                ... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... solaris2.10 ld.so
+checking how to hardcode library paths into programs... immediate
+checking for shl_load... no
+checking for shl_load in -ldld... no
+checking for dlopen... yes
+checking whether a program can dlopen itself... yes
+checking whether a statically linked program can dlopen itself... yes
+checking whether stripping libraries is possible... no
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+checking for a BSD-compatible install... /opt/csw/bin/ginstall -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /opt/csw/bin/gmkdir -p
+checking whether make sets $(MAKE)... yes
+checking whether make supports the include directive... yes (GNU style)
+checking whether make supports nested variables... yes
+checking how to create a pax tar archive... gnutar
+checking dependency style of gcc... gcc3
+checking whether make supports nested variables... (cached) yes
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... 64
+checking for gcc option to accept ISO C99... none needed
+checking for C compiler vendor... gnu
+checking for sparc-sun-solaris2.10-g++... no
+checking for sparc-sun-solaris2.10-c++... no
+checking for sparc-sun-solaris2.10-gpp... no
+checking for sparc-sun-solaris2.10-aCC... no
+checking for sparc-sun-solaris2.10-CC... no
+checking for sparc-sun-solaris2.10-cxx... no
+checking for sparc-sun-solaris2.10-cc++... no
+checking for sparc-sun-solaris2.10-cl.exe... no
+checking for sparc-sun-solaris2.10-FCC... no
+checking for sparc-sun-solaris2.10-KCC... no
+checking for sparc-sun-solaris2.10-RCC... no
+checking for sparc-sun-solaris2.10-xlC_r... no
+checking for sparc-sun-solaris2.10-xlC... no
+checking for g++... no
+checking for c++... no
+checking for gpp... no
+checking for aCC... no
+checking for CC... no
+checking for cxx... no
+checking for cc++... no
+checking for cl.exe... no
+checking for FCC... no
+checking for KCC... no
+checking for RCC... no
+checking for xlC_r... no
+checking for xlC... no
+checking whether we are using the GNU C++ compiler... no
+checking whether g++ accepts -g... no
+checking dependency style of g++... none
+checking how to run the C preprocessor... gcc -E
+checking for egrep... (cached) /opt/csw/bin/ggrep -E
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... (cached) yes
+checking for flex... no
+checking for lex... lex
+checking lex output file root... lex.yy
+checking lex library... -ll
+checking whether yytext is a pointer... no
+checking for bison... bison -y
+checking for valgrind... no
+checking for sparc-sun-solaris2.10-pkg-config... no
+checking for pkg-config... /opt/csw/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking if Bison is the parser generator... yes
+checking for kernel type (solaris2.10)... Solaris
+checking whether compiler builds 64bit binaries... no
+configure: Solaris detected. Please consider building a 64-bit binary.
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for arpa/inet.h... yes
+checking for endian.h... no
+checking for fcntl.h... yes
+checking for fnmatch.h... yes
+checking for fs_info.h... no
+checking for fshelp.h... no
+checking for grp.h... yes
+checking for kstat.h... yes
+checking for kvm.h... yes
+checking for libgen.h... yes
+checking for locale.h... yes
+checking for mntent.h... no
+checking for mnttab.h... no
+checking for netdb.h... yes
+checking for paths.h... yes
+checking for poll.h... yes
+checking for pthread_np.h... no
+checking for pwd.h... yes
+checking for regex.h... yes
+checking for sys/endian.h... no
+checking for sys/fs_types.h... no
+checking for sys/fstyp.h... yes
+checking for sys/ioctl.h... yes
+checking for sys/isa_defs.h... yes
+checking for sys/mntent.h... yes
+checking for sys/mnttab.h... yes
+checking for sys/param.h... yes
+checking for sys/resource.h... yes
+checking for sys/select.h... yes
+checking for sys/socket.h... yes
+checking for sys/statfs.h... yes
+checking for sys/statvfs.h... yes
+checking for sys/types.h... (cached) yes
+checking for sys/un.h... yes
+checking for sys/vfs.h... yes
+checking for sys/vfstab.h... yes
+checking for sys/vmmeter.h... no
+checking for syslog.h... yes
+checking for wordexp.h... yes
+checking for linux/ip_vs.h... no
+checking for netinet/in_systm.h... yes
+checking for netinet/in.h... yes
+checking for netinet/ip.h... yes
+checking for netinet/ip_icmp.h... yes
+checking for netinet/ip_var.h... yes
+checking for netinet/ip6.h... yes
+checking for netinet/icmp6.h... yes
+checking for netinet/tcp.h... yes
+checking for netinet/udp.h... yes
+checking sys/dkstat.h usability... no
+checking sys/dkstat.h presence... no
+checking for sys/dkstat.h... no
+checking for sys/sysctl.h... no
+checking ifaddrs.h usability... yes
+checking ifaddrs.h presence... yes
+checking for ifaddrs.h... yes
+checking for net/if.h... yes
+checking for sys/swap.h... yes
+checking for vm/anon.h... yes
+checking sys/loadavg.h usability... yes
+checking sys/loadavg.h presence... yes
+checking for sys/loadavg.h... yes
+checking linux/config.h usability... no
+checking linux/config.h presence... no
+checking for linux/config.h... no
+checking utmp.h usability... yes
+checking utmp.h presence... yes
+checking for utmp.h... yes
+checking utmpx.h usability... yes
+checking utmpx.h presence... yes
+checking for utmpx.h... yes
+checking for sys/ucred.h... no
+checking for sys/mount.h... yes
+checking for xfs/xqm.h... no
+checking for net/if_arp.h... yes
+checking net/ppp_defs.h usability... yes
+checking net/ppp_defs.h presence... yes
+checking for net/ppp_defs.h... yes
+checking for net/if_ppp.h... no
+checking for netinet/if_ether.h... yes
+checking for net/pfvar.h... yes
+checking termios.h usability... yes
+checking termios.h presence... yes
+checking for termios.h... yes
+checking whether clock_boottime and clock_monotonic are supported... no
+checking for an ANSI C-conforming const... yes
+checking for pid_t... yes
+checking for size_t... yes
+checking for uid_t in sys/types.h... yes
+checking whether time.h and sys/time.h may both be included... yes
+checking for asprintf... yes
+checking for closelog... yes
+checking for getaddrinfo... yes
+checking for getgrnam_r... yes
+checking for getnameinfo... yes
+checking for getpwnam... yes
+checking for getpwnam_r... yes
+checking for gettimeofday... yes
+checking for if_indextoname... yes
+checking for openlog... yes
+checking for regcomp... yes
+checking for regerror... yes
+checking for regexec... yes
+checking for regfree... yes
+checking for select... yes
+checking for setenv... yes
+checking for setgroups... yes
+checking for setlocale... yes
+checking for strcasecmp... yes
+checking for strdup... yes
+checking for strncasecmp... yes
+checking for sysconf... yes
+checking whether strerror_r is declared... yes
+checking for strerror_r... yes
+checking whether strerror_r returns char *... no
+checking for strtok_r... yes
+checking for socket... yes
+checking for clock_gettime... yes
+checking for nanosleep... yes
+checking for getifaddrs... yes
+checking for getloadavg... yes
+checking for getutent... yes
+checking for getutxent... yes
+checking for host_statistics... no
+checking for processor_info... yes
+checking for statfs... yes
+checking for statvfs... yes
+checking for sysctl... no
+checking for sysctlbyname... no
+checking for syslog... yes
+checking for thread_info... no
+checking for strptime... yes
+checking whether strptime is exported by default... yes
+checking for timegm... yes
+checking for sysctl kern.cp_times... no
+checking for sysctl kern.cp_time... no
+checking for swapctl... yes
+checking whether swapctl takes two arguments... yes
+checking whether swapctl takes three arguments... no
+checking whether NAN is defined by default... yes
+checking if doubles are stored in x86 representation... no
+checking if endianflip converts to x86 representation... yes
+checking whether clock_boottime and clock_monotonic are supported... (cache                                                                                d) no
+checking for getfsstat... no
+checking for getvfsstat... no
+checking for listmntent... no
+checking for getmntent_r... no
+checking for getmntent... yes
+checking whether getmntent takes one argument... no
+checking whether getmntent takes two arguments... yes
+checking whether htonll is defined... yes
+checking for struct if_data.ifi_ibytes... yes
+checking for struct if_data.ifi_opackets... yes
+checking for struct if_data.ifi_ierrors... yes
+checking for struct net_device_stats.rx_bytes... no
+checking for struct net_device_stats.tx_packets... no
+checking for struct net_device_stats.rx_errors... no
+checking for struct inet_diag_req.id... no
+checking for struct inet_diag_req.idiag_states... no
+checking for struct ip_mreqn.imr_ifindex... no
+checking for struct kinfo_proc.ki_pid... no
+checking for struct kinfo_proc.ki_rssize... no
+checking for struct kinfo_proc.ki_rusage... no
+checking for struct kinfo_proc.p_pid... no
+checking for struct kinfo_proc.p_vm_rssize... no
+checking for struct kinfo_proc2.p_pid... no
+checking for struct kinfo_proc2.p_uru_maxrss... no
+checking for struct udphdr.uh_dport... yes
+checking for struct udphdr.uh_sport... yes
+checking for struct udphdr.dest... no
+checking for struct udphdr.source... no
+checking for kstat_io_t.nwritten... yes
+checking for kstat_io_t.writes... yes
+checking for kstat_io_t.nwrites... no
+checking for kstat_io_t.wtime... yes
+checking for pthread_setname_np... yes
+checking for pthread_set_name_np... no
+checking for struct ip6_ext... no
+checking for struct ip6_ext... (cached) no
+checking for pthread_create in -lpthread... yes
+checking pthread.h usability... yes
+checking pthread.h presence... yes
+checking for pthread.h... yes
+checking for kstat_open in -lkstat... yes
+checking for di_init in -ldevinfo... yes
+checking for kstat.h... (cached) yes
+checking for kvm_getprocs in -lkvm... no
+checking for kvm_getswapinfo in -lkvm... no
+checking for kvm_nlist in -lkvm... yes
+checking bsd/nlist.h usability... no
+checking bsd/nlist.h presence... no
+checking for bsd/nlist.h... no
+checking nlist.h usability... yes
+checking nlist.h presence... yes
+checking for nlist.h... yes
+checking for kvm_openfiles in -lkvm... no
+checking libaquaero5.h usability... no
+checking libaquaero5.h presence... no
+checking for libaquaero5.h... no
+checking hiredis/hiredis.h usability... no
+checking hiredis/hiredis.h presence... no
+checking for hiredis/hiredis.h... no
+checking curl/curl.h usability... yes
+checking curl/curl.h presence... yes
+checking for curl/curl.h... yes
+checking for curl_easy_init in -lcurl... no
+checking whether CURLOPT_USERNAME is declared... yes
+checking whether CURLOPT_TIMEOUT_MS is declared... yes
+checking dbi/dbi.h usability... no
+checking dbi/dbi.h presence... no
+checking for dbi/dbi.h... no
+checking for DPDK... no
+configure: no DPDK pkg-config, using defaults
+checking rte_config.h usability... no
+checking rte_config.h presence... no
+checking for rte_config.h... no
+checking libesmtp.h usability... no
+checking libesmtp.h presence... no
+checking for libesmtp.h... no
+checking gm_protocol.h usability... no
+checking gm_protocol.h presence... no
+checking for gm_protocol.h... no
+checking gcrypt.h usability... yes
+checking gcrypt.h presence... yes
+checking for gcrypt.h... yes
+checking for gcry_md_hash_buffer in -lgcrypt... yes
+checking gps.h usability... no
+checking gps.h presence... no
+checking for gps.h... no
+checking for GRPCPP... no
+checking whether g++ accepts -std=c++11... no
+checking for grpc_cpp_plugin... no
+configure: WARNING: JAVA_HOME: No such directory: /usr/lib/jvm
+checking for javac... no
+checking for jar... no
+checking ldap.h usability... yes
+checking ldap.h presence... yes
+checking for ldap.h... yes
+checking for ldap_initialize in -lldap... yes
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking for LUA... no
+checking libmemcached/memcached.h usability... no
+checking libmemcached/memcached.h presence... no
+checking for libmemcached/memcached.h... no
+checking for MICROHTTPD... no
+checking for LIBMONGOC... no
+checking mosquitto.h usability... no
+checking mosquitto.h presence... no
+checking for mosquitto.h... no
+checking netapp_api.h usability... no
+checking netapp_api.h presence... no
+checking for netapp_api.h... no
+checking net-snmp/net-snmp-config.h usability... yes
+checking net-snmp/net-snmp-config.h presence... yes
+checking for net-snmp/net-snmp-config.h... yes
+checking for net-snmp/net-snmp-includes.h... yes
+checking for init_snmp in -lnetsnmp... yes
+checking for netsnmp_get_version in -lnetsnmp... yes
+checking whether netsnmp library has old API... no
+checking for net-snmp/agent/net-snmp-agent-includes.h... yes
+checking for netsnmp_init_helpers in -lnetsnmphelpers... no
+checking for init_agent in -lnetsnmpagent... yes
+checking oping.h usability... no
+checking oping.h presence... no
+checking for oping.h... no
+checking owcapi.h usability... no
+checking owcapi.h presence... no
+checking for owcapi.h... no
+checking pcap.h usability... yes
+checking pcap.h presence... yes
+checking for pcap.h... yes
+checking for pcap_open_live in -lpcap... yes
+checking whether libpcap has PCAP_ERROR_IFACE_NOT_UP... yes
+checking for perl... /opt/csw/bin/perl
+Note (probably harmless): No library found for -ldb-4.8
+checking for libperl... yes
+checking if Perl supports ithreads... yes
+checking for broken Perl_load_module()... no
+checking for struct mgvtbl.svt_local... yes
+configure: WARNING: pg_config returned with status 127
+checking libpq-fe.h usability... no
+checking libpq-fe.h presence... no
+checking for libpq-fe.h... no
+checking pqos.h usability... no
+checking pqos.h presence... no
+checking for pqos.h... no
+checking jevents.h usability... no
+checking jevents.h presence... no
+checking for jevents.h... no
+checking for PROTOBUF... no
+checking for main in -lprotobuf... no
+checking for protoc... no
+checking for PROTOBUF_C... no
+checking for protobuf_c_message_pack in -lprotobuf-c... no
+checking for protoc-c... no
+checking for python3-config... /usr/bin/python3-config
+checking Python.h usability... no
+checking Python.h presence... no
+checking for Python.h... no
+checking proton/proactor.h usability... no
+checking proton/proactor.h presence... no
+checking for proton/proactor.h... no
+checking amqp.h usability... no
+checking amqp.h presence... no
+checking for amqp.h... no
+checking librdkafka/rdkafka.h usability... no
+checking librdkafka/rdkafka.h presence... no
+checking for librdkafka/rdkafka.h... no
+checking routeros_api.h usability... no
+checking routeros_api.h presence... no
+checking for routeros_api.h... no
+checking for RRD... no
+checking rrd.h usability... no
+checking rrd.h presence... no
+checking for rrd.h... no
+checking for LIBSIGROK... no
+checking openssl/sha.h usability... yes
+checking openssl/sha.h presence... yes
+checking for openssl/sha.h... yes
+checking openssl/blowfish.h usability... yes
+checking openssl/blowfish.h presence... yes
+checking for openssl/blowfish.h... yes
+checking openssl/rand.h usability... yes
+checking openssl/rand.h presence... yes
+checking for openssl/rand.h... yes
+checking for OPENSSL_init_ssl in -lssl... no
+checking pkg-config for libstatgrab... not found
+checking tcrdb.h usability... no
+checking tcrdb.h presence... no
+checking for tcrdb.h... no
+checking xenctrl.h usability... no
+checking xenctrl.h presence... no
+checking for xenctrl.h... no
+checking yajl/yajl_parse.h usability... no
+checking yajl/yajl_parse.h presence... no
+checking for yajl/yajl_parse.h... no
+checking yajl/yajl_tree.h usability... no
+checking yajl/yajl_tree.h presence... no
+checking for yajl/yajl_tree.h... no
+checking yajl/yajl_version.h usability... no
+checking yajl/yajl_version.h presence... no
+checking for yajl/yajl_version.h... no
+checking MicAccessApi.h usability... no
+checking MicAccessApi.h presence... no
+checking for MicAccessApi.h... no
+checking for libOpenIPMIpthread... no (pkg-config doesn't know OpenIPMIpthr                                                                                ead)
+checking for LIBNOTIFY... no
+checking for LIBRIEMANN_CLIENT... no
+checking which default log plugin to load... syslog
+checking which default write plugin to load... network
+checking for the ExtUtils::MakeMaker module... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating src/libcollectdclient/collectd/lcc_features.h
+config.status: creating Makefile
+config.status: creating src/collectd.conf
+config.status: creating src/libcollectdclient/libcollectdclient.pc
+config.status: creating src/config.h
+config.status: executing libtool commands
+config.status: executing depfiles commands
+
+Configuration:
+  Build:
+    Platform  . . . . . . Solaris
+    Compiler vendor . . . gnu
+    CC  . . . . . . . . . gcc
+    CFLAGS  . . . . . . . -Wall -Werror -g -O2
+    CXXFLAGS  . . . . . . -Wall -Werror
+    CPP . . . . . . . . . gcc -E
+    CPPFLAGS  . . . . . .
+    GRPC_CPP_PLUGIN . . .
+    LD  . . . . . . . . . /usr/ccs/bin/ld
+    LDFLAGS . . . . . . .
+    PROTOC  . . . . . . .
+    YACC  . . . . . . . . bison -y
+    YFLAGS  . . . . . . .
+
+  Libraries:
+    intel mic . . . . . . no (MicAccessApi not found)
+    libaquaero5 . . . . . no (libaquaero5.h not found)
+    libatasmart . . . . . no (Linux only library)
+    libcurl . . . . . . . no (symbol 'curl_easy_init' not found)
+    libdbi  . . . . . . . no (dbi/dbi.h not found)
+    libdpdk . . . . . . . no (rte_config.h not found)
+    libesmtp  . . . . . . no (libesmtp.h not found)
+    libganglia  . . . . . no (gm_protocol.h not found)
+    libgcrypt . . . . . . yes
+    libgps  . . . . . . . no (gps.h not found)
+    libgrpc++ . . . . . . no (requires C++11 support)
+    libhiredis  . . . . . no (hiredis.h not found)
+    libi2c-dev  . . . . . no (Linux only)
+    libiokit  . . . . . . no
+    libiptc . . . . . . . no (Linux only)
+    libjevents  . . . . . no (jevents.h not found)
+    libjvm  . . . . . . . no (jar not found)
+    libkstat  . . . . . . yes
+    libkvm  . . . . . . . yes
+    libldap . . . . . . . yes
+    liblua  . . . . . . . no (pkg-config cannot find liblua)
+    liblvm2app  . . . . . no (Linux only library)
+    libmemcached  . . . . no (libmemcached/memcached.h not found)
+    libmicrohttpd . . . . no (pkg-config could not find libmicrohttpd)
+    libmnl  . . . . . . . no (Linux only library)
+    libmodbus . . . . . . no (pkg-config doesn't know libmodbus)
+    libmongoc . . . . . . no (pkg-config could not find libmongoc)
+    libmosquitto  . . . . no (mosquitto.h not found)
+    libmysql  . . . . . . no (mysql_config failed)
+    libnetapp . . . . . . no (netapp_api.h not found)
+    libnetsnmp  . . . . . yes
+    libnetsnmpagent . . . yes
+    libnotify . . . . . . no (pkg-config doesn't know libnotify)
+    libnvidia-ml  . . . . no
+    libopenipmi . . . . . no (pkg-config doesn't know OpenIPMIpthread)
+    liboping  . . . . . . no (oping.h not found)
+    libowcapi . . . . . . no (owcapi.h not found)
+    libpcap . . . . . . . yes
+    libperfstat . . . . . no (AIX only)
+    libperl . . . . . . . yes (version 5.10.1)
+    libpq . . . . . . . . no (libpq-fe.h not found)
+    libpqos . . . . . . . no (pqos.h not found)
+    libprotobuf . . . . . no (libprotobuf not found)
+    libprotobuf-c . . . . no (libprotobuf-c not found)
+    libpython . . . . . . no
+    libqpid-proton .  . . no (proton/proactor.h not found)
+    librabbitmq . . . . . no (amqp.h not found)
+    libriemann-client . . no (pkg-config doesn't know libriemann-client)
+    librdkafka  . . . . . no (librdkafka/rdkafka.h not found)
+    librouteros . . . . . no (routeros_api.h not found)
+    librrd  . . . . . . . no (rrd.h not found)
+    libsensors  . . . . . no (Linux only library)
+    libsigrok   . . . . . no (pkg-config could not find libsigrok)
+    libssl  . . . . . . . no (Symbol 'SSL_library_init' not found)
+    libstatgrab . . . . . no (pkg-config doesn't know libstatgrab)
+    libtokyotyrant  . . . no (tcrdb.h not found)
+    libudev . . . . . . . no (Linux only library)
+    libupsclient  . . . . no (pkg-config doesn't know libupsclient)
+    libvarnish  . . . . . no (pkg-config doesn't know varnishapi)
+    libvirt . . . . . . . no (pkg-config doesn't know libvirt)
+    libxenctrl  . . . . . no (xenctrl.h not found)
+    libxml2 . . . . . . . no (pkg-config doesn't know libxml-2.0)
+    libxmms . . . . . . . no
+    libyajl . . . . . . . no (yajl/yajl_parse.h not found)
+    oracle  . . . . . . . no (ORACLE_HOME is not set)
+    protobuf-c  . . . . . no (protoc-c compiler not found)
+    protoc 3  . . . . . . no
+
+  Features:
+    daemon mode . . . . . yes
+    debug . . . . . . . . no
+
+  Bindings:
+    perl  . . . . . . . . yes (PREFIX=NONE)
+
+  Modules:
+    aggregation . . . . . yes
+    amqp    . . . . . . . no (amqp.h not found)
+    amqp1   . . . . . . . no (proton/proactor.h not found)
+    apache  . . . . . . . no (symbol 'curl_easy_init' not found)
+    apcups  . . . . . . . yes
+    apple_sensors . . . . no
+    aquaero . . . . . . . no (libaquaero5.h not found)
+    ascent  . . . . . . . no
+    barometer . . . . . . no
+    battery . . . . . . . no
+    bind  . . . . . . . . no
+    ceph  . . . . . . . . no
+    cgroups . . . . . . . no
+    chrony. . . . . . . . yes
+    conntrack . . . . . . no
+    contextswitch . . . . no
+    cpu . . . . . . . . . yes
+    cpufreq . . . . . . . no
+    cpusleep  . . . . . . no
+    csv . . . . . . . . . yes
+    curl  . . . . . . . . no (symbol 'curl_easy_init' not found)
+    curl_json . . . . . . no
+    curl_xml  . . . . . . no
+    dbi . . . . . . . . . no (dbi/dbi.h not found)
+    df  . . . . . . . . . yes
+    disk  . . . . . . . . yes
+    dns . . . . . . . . . yes
+    docker  . . . . . . . no
+    dpdkevents. . . . . . no
+    dpdkstat  . . . . . . no
+    drbd  . . . . . . . . no
+    email . . . . . . . . yes
+    entropy . . . . . . . no
+    ethstat . . . . . . . no
+    exec  . . . . . . . . yes
+    fhcount . . . . . . . no
+    filecount . . . . . . yes
+    fscache . . . . . . . no
+    gmond . . . . . . . . no (gm_protocol.h not found)
+    gps . . . . . . . . . no
+    gpu_nvidia  . . . . . no
+    grpc  . . . . . . . . no (libgrpc++ not found)
+    hddtemp . . . . . . . yes
+    hugepages . . . . . . no
+    intel_pmu . . . . . . no (jevents.h not found)
+    intel_rdt . . . . . . no (pqos.h not found)
+    interface . . . . . . yes
+    ipc . . . . . . . . . no
+    ipmi  . . . . . . . . no
+    iptables  . . . . . . no (Linux only)
+    ipvs  . . . . . . . . no
+    irq . . . . . . . . . no
+    java  . . . . . . . . no (jar not found)
+    load  . . . . . . . . yes
+    logfile . . . . . . . yes
+    log_logstash  . . . . no
+    lpar  . . . . . . . . no (AIX only)
+    lua . . . . . . . . . no (pkg-config cannot find liblua)
+    lvm . . . . . . . . . no (Linux only library)
+    madwifi . . . . . . . no
+    match_empty_counter . yes
+    match_hashed  . . . . yes
+    match_regex . . . . . yes
+    match_timediff  . . . yes
+    match_value . . . . . yes
+    mbmon . . . . . . . . yes
+    mcelog  . . . . . . . no
+    md  . . . . . . . . . no
+    memcachec . . . . . . no (libmemcached/memcached.h not found)
+    memcached . . . . . . yes
+    memory  . . . . . . . yes
+    mic . . . . . . . . . no (MicAccessApi not found)
+    modbus  . . . . . . . no (pkg-config doesn't know libmodbus)
+    mqtt  . . . . . . . . no (mosquitto.h not found)
+    multimeter  . . . . . yes
+    mysql . . . . . . . . no (mysql_config failed)
+    netapp  . . . . . . . no (netapp_api.h not found)
+    netlink . . . . . . . no (Linux only library)
+    network . . . . . . . yes
+    nfs . . . . . . . . . yes
+    nginx . . . . . . . . no (symbol 'curl_easy_init' not found)
+    notify_desktop  . . . no (pkg-config doesn't know libnotify)
+    notify_email  . . . . no (libesmtp.h not found)
+    notify_nagios . . . . yes
+    ntpd  . . . . . . . . yes
+    numa  . . . . . . . . no
+    nut . . . . . . . . . no (pkg-config doesn't know libupsclient)
+    olsrd . . . . . . . . yes
+    onewire . . . . . . . no (owcapi.h not found)
+    openldap  . . . . . . yes
+    openvpn . . . . . . . yes
+    oracle  . . . . . . . no (ORACLE_HOME is not set)
+    ovs_events  . . . . . no
+    ovs_stats . . . . . . no
+    pcie_errors . . . . . no
+    perl  . . . . . . . . yes
+    pf  . . . . . . . . . yes
+    pinba . . . . . . . . no
+    ping  . . . . . . . . no (oping.h not found)
+    postgresql  . . . . . no (libpq-fe.h not found)
+    powerdns  . . . . . . yes
+    processes . . . . . . yes
+    processmon  . . . . . no
+    protocols . . . . . . no
+    python  . . . . . . . no
+    redis . . . . . . . . no (hiredis.h not found)
+    routeros  . . . . . . no (routeros_api.h not found)
+    rrdcached . . . . . . no
+    rrdtool . . . . . . . no (rrd.h not found)
+    sensors . . . . . . . no (Linux only library)
+    serial  . . . . . . . no
+    sigrok  . . . . . . . no (pkg-config could not find libsigrok)
+    smart . . . . . . . . no
+    snmp  . . . . . . . . yes
+    snmp_agent  . . . . . yes
+    statsd  . . . . . . . yes
+    swap  . . . . . . . . yes
+    synproxy  . . . . . . no
+    syslog  . . . . . . . yes
+    table . . . . . . . . yes
+    tail_csv  . . . . . . yes
+    tail  . . . . . . . . yes
+    tape  . . . . . . . . yes
+    target_notification . yes
+    target_replace  . . . yes
+    target_scale  . . . . yes
+    target_set  . . . . . yes
+    target_v5upgrade  . . yes
+    tcpconns  . . . . . . no
+    teamspeak2  . . . . . yes
+    ted . . . . . . . . . yes
+    thermal . . . . . . . no
+    threshold . . . . . . yes
+    tokyotyrant . . . . . no (tcrdb.h not found)
+    turbostat . . . . . . no
+    unixsock  . . . . . . yes
+    uptime  . . . . . . . yes
+    users . . . . . . . . yes
+    uuid  . . . . . . . . yes
+    varnish . . . . . . . no (pkg-config doesn't know varnishapi)
+    virt  . . . . . . . . no
+    vmem  . . . . . . . . no
+    vserver . . . . . . . no
+    wireless  . . . . . . no
+    write_graphite  . . . yes
+    write_http  . . . . . no (symbol 'curl_easy_init' not found)
+    write_kafka . . . . . no (librdkafka/rdkafka.h not found)
+    write_log . . . . . . yes
+    write_mongodb . . . . no (pkg-config could not find libmongoc)
+    write_prometheus. . . no
+    write_redis . . . . . no (hiredis.h not found)
+    write_riemann . . . . no (pkg-config doesn't know libriemann-client)
+    write_sensu . . . . . yes
+    write_stackdriver . . no
+    write_syslog . .  . . yes
+    write_splunk  . . . . no (symbol 'curl_easy_init' not found)
+    write_tsdb  . . . . . yes
+    xencpu  . . . . . . . no
+    xmms  . . . . . . . . no
+    zfs_arc . . . . . . . yes
+    zone  . . . . . . . . yes
+    zookeeper . . . . . . yes
+
++++
+=== +++
+=== ===
+=== === === +++
+=== +++ MAKE
+=== === === +++
+=== ===
+=== +++
++++
+
+root@dev-hial1:~/collectd# make
+  YACC     src/liboconfig/parser.c
+/root/collectd/src/liboconfig/parser.y:78.1-14: warning: POSIX Yacc does not support %error-verbose [-Wyacc]
+   78 | %error-verbose
+      | ^~~~~~~~~~~~~~
+/root/collectd/src/liboconfig/parser.y:78.1-14: warning: deprecated directive: ‘%error-verbose’, use ‘%define parse.error verbose’ [-Wdeprecated]
+   78 | %error-verbose
+      | ^~~~~~~~~~~~~~
+      | %define parse.error verbose
+/root/collectd/src/liboconfig/parser.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+updating src/liboconfig/parser.h
+  POD2MAN  src/collectd.1
+  POD2MAN  src/collectd.conf.5
+  POD2MAN  src/collectd-email.5
+  POD2MAN  src/collectd-exec.5
+  POD2MAN  src/collectdctl.1
+  POD2MAN  src/collectd-java.5
+  POD2MAN  src/collectd-lua.5
+  POD2MAN  src/collectdmon.1
+  POD2MAN  src/collectd-nagios.1
+  POD2MAN  src/collectd-perl.5
+  POD2MAN  src/collectd-python.5
+  POD2MAN  src/collectd-snmp.5
+  POD2MAN  src/collectd-tg.1
+  POD2MAN  src/collectd-threshold.5
+  POD2MAN  src/collectd-unixsock.5
+  POD2MAN  src/types.db.5
+make  all-am
+  CC       src/collectd_nagios-collectd-nagios.o
+  CC       src/libcollectdclient/libcollectdclient_la-client.lo
+  CC       src/libcollectdclient/libcollectdclient_la-network.lo
+  CC       src/libcollectdclient/libcollectdclient_la-network_buffer.lo
+  CC       src/libcollectdclient/libcollectdclient_la-network_parse.lo
+  CC       src/libcollectdclient/libcollectdclient_la-server.lo
+  CCLD     libcollectdclient.la
+  CCLD     collectd-nagios
+  CC       src/collectd_tg-collectd-tg.o
+  CC       src/utils/heap/heap.lo
+  CCLD     libheap.la
+  CCLD     collectd-tg
+  CC       src/collectdctl-collectdctl.o
+  CCLD     collectdctl
+  CC       src/daemon/collectd-collectd.o
+  CC       src/daemon/collectd-configfile.o
+  CC       src/daemon/collectd-filter_chain.o
+  CC       src/daemon/collectd-globals.o
+  CC       src/utils/metadata/collectd-meta_data.o
+  CC       src/daemon/collectd-plugin.o
+src/daemon/plugin.c: In function ‘set_thread_name’:
+src/daemon/plugin.c:615:16: error: implicit declaration of function ‘pthread_setname_np’ [-Werror=implicit-function-declaration]
+   int status = pthread_setname_np(tid, n);
+                ^
+cc1: all warnings being treated as errors
+*** Error code 1
+The following command caused the error:
+echo "  CC      " src/daemon/collectd-plugin.o;gcc -DHAVE_CONFIG_H -I. -I./src  -I./src -I./src/daemon  -DPREFIX='"/opt/collectd"'  -DCONFIGFILE='"/opt/collectd/etc/collectd.conf"'  -DLOCALSTATEDIR='"/opt/collectd/var"'  -DPKGLOCALSTATEDIR='"/opt/collectd/var/lib/collectd"'  -DPLUGINDIR='"/opt/collectd/lib/collectd"' -DPKGDATADIR='"/opt/collectd/share/collectd"'   -DPIDFILE='"/opt/collectd/var/run/collectd.pid"'  -Wall -Werror  -g -O2 -MT src/daemon/collectd-plugin.o -MD -MP -MF src/daemon/.deps/collectd-plugin.Tpo -c -o src/daemon/collectd-plugin.o `test -f 'src/daemon/plugin.c' || echo './'`src/daemon/plugin.c
+make: Fatal error: Command failed for target `src/daemon/collectd-plugin.o'
+Current working directory /root/collectd
+*** Error code 1
+make: Fatal error: Command failed for target `all'

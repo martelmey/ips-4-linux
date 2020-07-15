@@ -1,17 +1,73 @@
-http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs
+REPOSDIR=/export/pkgs/repos
+YUMDIR=
+IPSDIR=/export/pkgs/repos/solsr
+HTTP_PROXY=http://192.168.60.250:8008
+SRKEY=/root/pkg.oracle.com.key.pem
+SRCERT=/root/pkg.oracle.com.certificate.pem
+COLLTAR=/export/pkgs/splunk/sparc-collectd.tar
+COLLPKG=
 
-pkgrecv -c
+##########  ##########  ##########\/
+####  ####  zfs
+##########  ##########  ##########\/
+
+192.168.61.132:/export/utilities-kdcprd/pkgs
+    ##On ZFS - best practice, would be nice to have; needs setup on 192.168.61.132
+    #zfs create -o atime=off rpool/repos
+    #zfs create rpool/repos/solsr
+    ## - rest of repo setup -
+    #zfs snapshot rpool/repos/solsr@solsr-11_4_23_0_1_69_3
+
+for kdcprd/ps ZS7-2: 
+utilities-splunk/npindx         (quota = 100 GB)
+utilities-splunk/psindx         (quota = 100 GB)
+utilities-splunk/prdindx        (quota = 200 GB)
+
+Application pool:
+Total usage = 0.21 TB
+Total free = 159 TB
+ 
+Backup pool:
+Total usage = 78.0 TB
+Total free = 349 TB
+
+##########  ##########  ##########\/
+####  ####  zones
+##########  ##########  ##########\/
+
+
+
+##########  ##########  ##########\/
+####  ####  pkgserver & pkgdepot
+##########  ##########  ##########\/
+
+http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs
 
 pkg5srv:x:97:97:pkg(7) server UID:/:
 uid=97(pkg5srv) gid=97(pkg5srv)
 
 /etc/apache2/2.4/conf.d.
 
+pkgrecv -c
+
 svcs pkg/server
 svcs pkg/depot
 svcprop -p pkg/standalone -p pkg/readonly
 svcs -p svc:/application/pkg/server:standalone
 svcs -p pkg/depot
+
+##########  ##########  ##########\/
+####  ####  daemon design
+##########  ##########  ##########\/
+
+#Patchset search:
+https://updates.oracle.com/Orion/AdvancedSearch/process_form?product=17450&product_any=Select+a+Product+or+Product+Family&product_none=&product_auto=on&release=400000110000&release_any=Select+a+Release&release_none=&release_auto=off&compatible_with_any=Select+Compatible+Point+Release&compatible_with_none=&compatible_with_auto=off&compatible_baselines_any=Select+Compatible+Product+Codeline&compatible_baselines_none=&compatible_baselines_auto=off&plat_lang=23P&patch_type=all&description=&priority=any&patch_target=any&updated_in_last=&timeframe=D&file=&version=&not_included_in=&not_included_in_any=Select+a+Patchset&not_included_in_none=&not_included_in_auto=on&display_type=&search_style=9&orderby=&direction=&old_type_list=&gobuttonpressed=&sortcolpressed=&tab_number=&c_release_parent=product&c_product_child=release&c_compatible_with_parent=product&c_product_child=compatible_with&c_not_included_in_parent=product&c_product_child=not_included_in&c_not_included_in_parent=release&c_release_child=not_included_in&c_compatible_with_parent=release&c_release_child=compatible_with&c_compatible_baselines_parent=release&c_release_child=compatible_baselines&c_compatible_baselines_parent=compatible_with&c_compatible_with_child=compatible_baselines&c_compatible_baselines_parent=product&c_product_child=compatible_baselines#query_link
+#Patchset page:
+https://updates.oracle.com/Orion/PatchDetails/process_form?patch_num=31463803&aru=23688499&release=400000110000&plat_lang=23P&patch_num_id=3722325&
+
+##########  ##########  ##########\/
+####  ####  cc
+##########  ##########  ##########\/
 
 martel.meyers@dev-hial1:~$ uname -a
 SunOS dev-hial1 5.11 11.4.5.3.0 sun4v sparc sun4v
@@ -36,3 +92,19 @@ cd collectd && git checkout collectd-5.9
 cp -f ../collectd-plugins/src/* src/
 git apply ../collectd-plugins/add-splunk-plugins.patch
 tar -cvf sparc-collectd.tar collectd/
+
+##########  ##########  ##########\/
+####  ####  git large file fix
+##########  ##########  ##########\/
+
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch cc-knpdb11-sparc.pkg' \
+  --prune-empty --tag-name-filter cat -- --all
+
+git filter-branch --force --index-filter \
+  'git rm --cached --ignore-unmatch pkg-knpdb11-sparc.p5p' \
+  --prune-empty --tag-name-filter cat -- --all
+
+git gc --prune=now
+
+git push origin --force --all

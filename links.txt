@@ -3,6 +3,11 @@
 https://gcc.gnu.org/install/specific.html#x86-64-x-solaris2
 https://gcc.gnu.org/install/specific.html#sparc-sun-solaris2
 
-#repo:
+#daemon:
 
 https://www.devdungeon.com/content/creating-systemd-service-files
+
+#ips:
+
+https://updates.oracle.com/Orion/PatchDetails/process_form?patch_num=31463803&aru=23688499&release=400000110000&plat_lang=23P&patch_num_id=3722325&
+https://updates.oracle.com/Orion/AdvancedSearch/process_form?product=17450&product_any=Select+a+Product+or+Product+Family&product_none=&product_auto=on&release=400000110000&release_any=Select+a+Release&release_none=&release_auto=off&compatible_with_any=Select+Compatible+Point+Release&compatible_with_none=&compatible_with_auto=off&compatible_baselines_any=Select+Compatible+Product+Codeline&compatible_baselines_none=&compatible_baselines_auto=off&plat_lang=23P&patch_type=all&description=&priority=any&patch_target=any&updated_in_last=&timeframe=D&file=&version=&not_included_in=&not_included_in_any=Select+a+Patchset&not_included_in_none=&not_included_in_auto=on&display_type=&search_style=9&orderby=&direction=&old_type_list=&gobuttonpressed=&sortcolpressed=&tab_number=&c_release_parent=product&c_product_child=release&c_compatible_with_parent=product&c_product_child=compatible_with&c_not_included_in_parent=product&c_product_child=not_included_in&c_not_included_in_parent=release&c_release_child=not_included_in&c_compatible_with_parent=release&c_release_child=compatible_with&c_compatible_baselines_parent=release&c_release_child=compatible_baselines&c_compatible_baselines_parent=compatible_with&c_compatible_with_child=compatible_baselines&c_compatible_baselines_parent=product&c_product_child=compatible_baselines#query_link
