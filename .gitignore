@@ -1,2 +1,6 @@
-cc-knpdb11-sparc.pkg
-pkg-knpdb11-sparc.p5p
+#x
+./cc-knpdb11-sparc.pkg
+./pkg-knpdb11-sparc.p5p
+#nt
+.\cc-knpdb11-sparc.pkg
+.\pkg-knpdb11-sparc.p5p
