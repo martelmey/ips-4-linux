@@ -1,0 +1,8 @@
+#cc:
+
+https://gcc.gnu.org/install/specific.html#x86-64-x-solaris2
+https://gcc.gnu.org/install/specific.html#sparc-sun-solaris2
+
+#repo:
+
+https://www.devdungeon.com/content/creating-systemd-service-files

@@ -1,0 +1,38 @@
+http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs
+
+pkgrecv -c
+
+pkg5srv:x:97:97:pkg(7) server UID:/:
+uid=97(pkg5srv) gid=97(pkg5srv)
+
+/etc/apache2/2.4/conf.d.
+
+svcs pkg/server
+svcs pkg/depot
+svcprop -p pkg/standalone -p pkg/readonly
+svcs -p svc:/application/pkg/server:standalone
+svcs -p pkg/depot
+
+martel.meyers@dev-hial1:~$ uname -a
+SunOS dev-hial1 5.11 11.4.5.3.0 sun4v sparc sun4v
+
+System types:
+  --build=BUILD     configure for building on BUILD [guessed]
+  --host=HOST       cross-compile to build programs to run on HOST [BUILD]
+With types:
+--with-java[=PREFIX]            Path to Java home.
+--with-oracle[=ORACLE_HOME]    Path to Oracle.
+
+./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
+
+git branch --show-current
+
+#On Jump1:
+cd /export/pkgs/splunk
+git config --global http.proxy http://192.168.60.250:8008
+git clone https://github.com/splunk/collectd-plugins.git
+git clone https://github.com/collectd/collectd.git
+cd collectd && git checkout collectd-5.9
+cp -f ../collectd-plugins/src/* src/
+git apply ../collectd-plugins/add-splunk-plugins.patch
+tar -cvf sparc-collectd.tar collectd/

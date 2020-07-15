@@ -21,21 +21,23 @@ pkg set-publisher -k /root/pkg.oracle.com.key.pem \
 solaris
 
 #Install deps
-pkg update --accept
-pkg install git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config
+#pkg update --accept
+#pkg install git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config
+cp /export/pkgs/splunk/pkg-knpdb11-sparc.p5p .
 cp /export/pkgs/splunk/cc-knpdb11-sparc.pkg .
-pkgadd -d cc-knpdb11-sparc.pkg all #(git, bison, automake, autoconf)
+pkgadd -d cc-knpdb11-sparc.pkg all
+PATH=/opt/csw/bin:$PATH
+export PATH
+#pkg install -g file:////root/pkg-knpdb11-sparc.p5p
 
 #Clone plugin repos
-git config --global http.proxy http://192.168.60.250:8008
-#git config --global --get http.proxy
-git clone https://github.com/splunk/collectd-plugins.git
-git clone https://github.com/collectd/collectd.git
-cd collectd && git checkout collectd-5.9
-cp -f ../collectd-plugins/src/* src/
-git apply ../collectd-plugins/add-splunk-plugins.patch
+#On dev-hial1: (publisher=collectd)
+cp /export/pkgs/splunk/sparc-collectd.tar .
+tar -xvf sparc-collectd.tar && cd collectd
 ./build.sh
-./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
+./configure \
+--build=sparc-sun-solaris2.10 \
+--host=sparc-sun-solaris2.10 \
+--target=sparc-sun-solaris2.10
 make
-make check-TESTS
-make install
+#Errors start here - Tues July14

@@ -91,12 +91,12 @@ mkdir -p /export/repoSolaris11/solaris
 ./install-repo.ksh -d /export/repoSolaris11/solaris -c -v -I
 zfs snapshot rpool/export/repoSolaris11/solaris@sol-11_4
 
-curl \
---url <"https://pkg.oracle.com/solaris/support/"> \
---cert "$PKGCERT" \
---key "$PKGKEY" \
-#--key-type PEM 
---output /root/remote_summary \
+#curl \
+#--url <"https://pkg.oracle.com/solaris/support/"> \
+#--cert "$PKGCERT" \
+#--key "$PKGKEY" \
+#--key-type PEM \
+#--output /root/remote_summary \
 #--proxy-anyauth \
 #--proxy#1.0 192.168.60.250:8008 \
 #--proxytunnel \

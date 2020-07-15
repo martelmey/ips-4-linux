@@ -1,1 +1,1 @@
-{"dependencies":[["vagrant-disksize",["= 0.1.3"]]],"checksum":"5dc52baaedce190b7b0ee22ababca99dfe93c4ec13c59119c7035e6615ba6181","vagrant_version":"2.2.9"}
+{"dependencies":[["vagrant-disksize",["= 0.1.3"]],["vagrant-hostmanager",["= 1.8.9"]],["log4r",[">= 0"]],["concurrent-ruby",["~> 1.0"]],["i18n",[">= 0"]],["micromachine",[">= 2","< 4"]],["vagrant-vbguest",["= 0.24.0"]]],"checksum":"4eacc47f0c932e5f64442480ff55bebbdc9dab7885f5bdaf3ee70196aec87584","vagrant_version":"2.2.9"}
