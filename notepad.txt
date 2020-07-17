@@ -1,3 +1,0 @@
-Repo source: (FILES/HTTP) = FILES
-
-Will probably use FMRI's

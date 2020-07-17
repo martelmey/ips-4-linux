@@ -1,15 +1,558 @@
-##  dev-hial1.sh
-### PROBLEM: pkg broken
-##
-
-root@dev-hial1:~# pkg update
-pkg: 0/1 catalogs successfully updated:
 
 
-http protocol error: Unknown error code: 403 reason: Forbidden
-URL: 'http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs'
 
-root@dev-hial1:~# pkg publisher solaris
+
+
+
+#ROOT
+svc:/application/pkg/zones-proxyd:default
+svc:/application/pkg/system-repository:default
+svc:/system/pkgserv:default
+svc:/application/pkg/repositories-setup:default
+
+
+
+
+
+
+
+
+
+
+
+
+root@knpappdm01:~# pkg publisher
+PUBLISHER                   TYPE     STATUS P LOCATION
+solaris                     origin   online F file:///net/192.168.63.230/Shared/S11.4_GA_repo/
+root@knpappdm01:~# pkg publisher solaris
+            Publisher: solaris
+                Alias:
+           Origin URI: file:///net/192.168.63.230/Shared/S11.4_GA_repo/
+           Origin Status: Online
+              SSL Key: None
+             SSL Cert: None
+          Client UUID: fc31b49e-7d70-11e9-8d67-29630322a30e
+      Catalog Updated: January 30, 2020 at  8:20:55 PM
+              Enabled: Yes
+
+root@knpappdm01:~# svcs \*pkg\*
+STATE          STIME    FMRI
+disabled       Feb_06   svc:/application/pkg/depot:default
+disabled       Feb_06   svc:/application/pkg/dynamic-mirror:default
+disabled       Feb_06   svc:/application/pkg/mirror:default
+disabled       Feb_06   svc:/application/pkg/server:default
+disabled       Feb_06   svc:/application/pkg/system-repository:default
+disabled       Feb_06   svc:/application/pkg/zones-proxyd:default
+disabled       Feb_06   svc:/application/pkg/sysrepo-cache-compact:default
+online         Feb_06   svc:/system/pkgserv:default
+online         Feb_06   svc:/application/pkg/repositories-setup:default
+
+root@knpappdm01:~# svcs \*zone\*
+STATE          STIME    FMRI
+disabled       Feb_06   svc:/application/pkg/zones-proxyd:default
+disabled       Feb_06   svc:/system/memory-reserve:zones
+online         Feb_06   svc:/system/timezone:default
+online         Feb_06   svc:/system/zones-monitoring:default
+online         Feb_06   svc:/system/zones-upgrade:default
+online         Feb_06   svc:/system/zones:default
+online         Feb_06   svc:/system/zones-install:default
+
+#
+#
+#
+#
+#
+#
+####################
+###########
+#
+svc:/application/pkg/zones-proxyd:default
+#
+###########
+####################
+#
+#
+#
+#
+#
+#
+root@knpdbdm01:~# svcs -l svc:/application/pkg/zones-proxyd:default
+fmri         svc:/application/pkg/zones-proxyd:default
+name         Zones Proxy Daemon
+enabled      false
+state        disabled
+next_state   none
+state_time   February  2, 2020 at  8:22:39 PM UTC
+logfile      /var/svc/log/application-pkg-zones-proxyd:default.log
+restarter    svc:/system/svc/restarter:default
+manifest     /lib/svc/manifest/application/pkg/zoneproxyd.xml
+dependency   require_any/none svc:/system/filesystem/minimal (online)
+dependency   require_any/error svc:/milestone/network (online)
+dependency   require_all/none svc:/application/pkg/system-repository (disabled)
+
+root@knpappdm01:~# svcadm enable -s svc:/application/pkg/zones-proxyd:default
+root@knpappdm01:~# svcs -l svc:/application/pkg/zones-proxyd:default
+fmri         svc:/application/pkg/zones-proxyd:default
+name         Zones Proxy Daemon
+enabled      true
+state        online
+next_state   none
+state_time   July 16, 2020 at  9:57:10 PM UTC
+logfile      /var/svc/log/application-pkg-zones-proxyd:default.log
+restarter    svc:/system/svc/restarter:default
+contract_id  2090
+manifest     /lib/svc/manifest/application/pkg/zoneproxyd.xml
+dependency   require_any/none svc:/system/filesystem/minimal (online)
+dependency   require_any/error svc:/milestone/network (online)
+dependency   require_all/none svc:/application/pkg/system-repository (online)
+
+root@knpappdm01:~# svcs -p svc:/application/pkg/zones-proxyd:default
+STATE          STIME    FMRI
+online         21:57:10 svc:/application/pkg/zones-proxyd:default
+               21:57:10     20314 zoneproxyd
+
+root@knpappdm01:~# less /var/svc/log/application-pkg-zones-proxyd:default.log
+[ 2019 May 23 15:50:30 Disabled. ]
+[ 2020 Jan  8 21:43:06 Disabled. ]
+[ 2020 Jan 17 23:02:32 Disabled. ]
+[ 2020 Jan 31 03:01:10 Disabled. ]
+[ 2020 Jan 31 03:19:07 Disabled. ]
+[ 2020 Feb  4 00:23:44 Disabled. ]
+[ 2020 Feb  4 00:39:47 Disabled. ]
+[ 2020 Feb  4 01:41:20 Disabled. ]
+[ 2020 Feb  6 09:46:43 Disabled. ]
+[ 2020 Jul 16 21:57:10 Enabled. ]
+[ 2020 Jul 16 21:57:10 Executing start method ("/usr/lib/zones/zoneproxyd"). ]
+[ 2020 Jul 16 21:57:10 Method "start" exited with status 0. ]
+
+root@knpdbdm01:~# svcprop -a svc:/application/pkg/zones-proxyd:default
+general/complete astring
+general/enabled boolean false
+general/entity_stability astring Unstable
+general/single_instance boolean true
+fs/entities fmri svc:/system/filesystem/minimal
+fs/grouping astring require_any
+fs/restart_on astring none
+fs/type astring service
+manifestfiles/lib_svc_manifest_application_pkg_zoneproxyd_xml astring /lib/svc/manifest/application/pkg/zoneproxyd.xml
+network/entities fmri svc:/milestone/network
+network/grouping astring require_any
+network/restart_on astring error
+network/type astring service
+start/exec astring /usr/lib/zones/zoneproxyd
+start/privileges astring all
+start/timeout_seconds count 300
+start/trusted_path boolean false
+start/type astring method
+start/use_profile boolean false
+start/user astring pkg5srv
+stop/exec astring :kill
+stop/timeout_seconds count 300
+stop/trusted_path boolean false
+stop/type astring method
+stop/use_profile boolean false
+stop/user astring pkg5srv
+sysrepo/entities fmri svc:/application/pkg/system-repository
+sysrepo/grouping astring require_all
+sysrepo/restart_on astring none
+sysrepo/type astring service
+tm_common_name/C ustring Zones\ Proxy\ Daemon
+tm_man_pkg_sysrepo8/manpath astring /usr/share/man
+tm_man_pkg_sysrepo8/section astring 8
+tm_man_pkg_sysrepo8/title astring pkg.sysrepo
+restarter/auxiliary_state astring per_configuration
+restarter/logfile astring /var/svc/log/application-pkg-zones-proxyd:default.log
+restarter/next_state astring none
+restarter/state astring disabled
+restarter/state_timestamp time 1580674959.235000000
+
+root@knpdbdm01:~# less /var/svc/log/application-pkg-zones-proxyd:default.log
+[ 2019 May 23 07:47:18 Disabled. ]
+[ 2020 Jan  8 20:21:09 Disabled. ]
+[ 2020 Jan  8 21:19:31 Disabled. ]
+[ 2020 Jan 20 17:22:20 Disabled. ]
+[ 2020 Jan 30 19:36:34 Disabled. ]
+[ 2020 Jan 31 10:48:55 Disabled. ]
+[ 2020 Jan 31 10:59:30 Disabled. ]
+[ 2020 Jan 31 11:06:01 Disabled. ]
+[ 2020 Feb  2 08:31:41 Disabled. ]
+[ 2020 Feb  2 12:22:39 Disabled. ]
+
+root@knpdbdm01:~# less /lib/svc/manifest/application/pkg/zoneproxyd.xml
+<dependency
+    name='sysrepo'
+    type='service'
+    grouping='require_all'
+    restart_on='none'>
+    <service_fmri value='svc:/application/pkg/system-repository' />
+</dependency>
+<exec_method
+    type='method'
+    name='start'
+    exec='/usr/lib/zones/zoneproxyd'
+    timeout_seconds='300'>
+    <method_context>
+        <method_credential user='pkg5srv'
+            privileges='all' />
+    </method_context>
+</exec_method>
+
+#
+#
+#
+#
+#
+#
+####################
+###########
+#
+svc:/application/pkg/system-repository:default
+#
+###########
+####################
+#
+#
+#
+#
+#
+#
+root@knpappdm01:~# svcs -l svc:/application/pkg/system-repository:default
+fmri         svc:/application/pkg/system-repository:default
+name         IPS System Repository
+enabled      false
+state        disabled
+next_state   none
+state_time   February  6, 2020 at  5:46:43 PM UTC
+logfile      /var/svc/log/application-pkg-system-repository:default.log
+restarter    svc:/system/svc/restarter:default
+manifest     /lib/svc/manifest/application/pkg/pkg-system-repository.xml
+dependency   optional_all/error svc:/system/filesystem/autofs:default (online)
+dependency   require_all/none svc:/system/filesystem/local:default (online)
+dependency   require_all/error svc:/milestone/network:default (online)
+
+root@knpappdm01:~# svcadm enable -s svc:/application/pkg/system-repository:default
+root@knpappdm01:~# svcs -l svc:/application/pkg/system-repository:default
+fmri         svc:/application/pkg/system-repository:default
+name         IPS System Repository
+enabled      true
+state        online
+next_state   none
+state_time   July 16, 2020 at  9:53:05 PM UTC
+logfile      /var/svc/log/application-pkg-system-repository:default.log
+restarter    svc:/system/svc/restarter:default
+contract_id  2089
+manifest     /lib/svc/manifest/application/pkg/pkg-system-repository.xml
+dependency   optional_all/error svc:/system/filesystem/autofs:default (online)
+dependency   require_all/none svc:/system/filesystem/local:default (online)
+dependency   require_all/error svc:/milestone/network:default (online)
+
+root@knpappdm01:~# svcs -p svc:/application/pkg/system-repository:default
+STATE          STIME    FMRI
+online         21:53:05 svc:/application/pkg/system-repository:default
+               21:53:05     20289 httpd
+               21:53:05     20290 httpd
+               21:53:05     20291 httpd
+               21:53:05     20292 httpd
+               21:53:05     20293 httpd
+
+root@knpappdm01:~# less /var/svc/log/application-pkg-system-repository:default.log
+[ 2019 May 23 15:50:30 Disabled. ]
+[ 2020 Jan  8 21:43:06 Disabled. ]
+[ 2020 Jan 17 23:02:32 Disabled. ]
+[ 2020 Jan 31 03:01:10 Disabled. ]
+[ 2020 Jan 31 03:19:07 Disabled. ]
+[ 2020 Feb  4 00:23:44 Disabled. ]
+[ 2020 Feb  4 00:39:47 Disabled. ]
+[ 2020 Feb  4 01:41:20 Disabled. ]
+[ 2020 Feb  6 09:46:43 Disabled. ]
+[ 2020 Jul 16 21:53:03 Enabled. ]
+[ 2020 Jul 16 21:53:03 Executing start method ("/lib/svc/method/svc-pkg-sysrepo start"). ]
+[ 2020 Jul 16 21:53:05 Method "start" exited with status 0. ]
+
+root@knpappdm01:~# svcprop -a svc:/application/pkg/system-repository:default
+autofs/entities fmri svc:/system/filesystem/autofs:default
+autofs/grouping astring optional_all
+autofs/restart_on astring error
+autofs/type astring service
+config/cache_dir astring /var/cache/pkg/sysrepo
+config/cache_max count 2048
+config/host astring 127.0.0.1
+config/http_proxy astring ""
+config/https_proxy astring ""
+config/log_dir astring /var/log/pkg/sysrepo
+config/port count 1008
+config/runtime_dir astring /system/volatile/pkg/sysrepo
+config/stability astring Evolving
+config/template_dir astring /etc/pkg/sysrepo
+config/value_authorization astring solaris.smf.value.pkg-sysrepo
+filesystem-local/entities fmri svc:/system/filesystem/local:default
+filesystem-local/grouping astring require_all
+filesystem-local/restart_on astring none
+filesystem-local/type astring service
+general/action_authorization astring solaris.smf.manage.pkg-sysrepo
+general/complete astring
+general/enabled boolean false
+general/value_authorization astring solaris.smf.value.pkg-sysrepo
+general/entity_stability astring Evolving
+network/entities fmri svc:/milestone/network:default
+network/grouping astring require_all
+network/restart_on astring error
+network/type astring service
+refresh/exec astring /lib/svc/method/svc-pkg-sysrepo\ refresh
+refresh/group astring pkg5srv
+refresh/privileges astring {zone}:/system/volatile/pkg\*
+refresh/timeout_seconds count 60
+refresh/trusted_path boolean false
+refresh/type astring method
+refresh/use_profile boolean false
+refresh/user astring pkg5srv
+start/exec astring /lib/svc/method/svc-pkg-sysrepo\ start
+start/group astring pkg5srv
+start/privileges astring basic,net_privaddr,{zone}:/system/volatile/pkg\*
+start/timeout_seconds count 300
+start/trusted_path boolean false
+start/type astring method
+start/use_profile boolean false
+start/user astring pkg5srv
+stop/exec astring /lib/svc/method/svc-pkg-sysrepo\ stop
+stop/group astring pkg5srv
+stop/privileges astring basic,net_privaddr
+stop/timeout_seconds count 60
+stop/trusted_path boolean false
+stop/type astring method
+stop/use_profile boolean false
+stop/user astring pkg5srv
+tm_common_name/C ustring IPS\ System\ Repository
+tm_man_pkg_sysrepo8/manpath astring :default
+tm_man_pkg_sysrepo8/section astring 8
+tm_man_pkg_sysrepo8/title astring pkg.sysrepo
+manifestfiles/lib_svc_manifest_application_pkg_pkg-system-repository_xml astring /lib/svc/manifest/application/pkg/pkg-system-repository.xml
+restarter/auxiliary_state astring per_configuration
+restarter/logfile astring /var/svc/log/application-pkg-system-repository:default.log
+restarter/next_state astring none
+restarter/state astring disabled
+restarter/state_timestamp time 1581011203.735482000
+
+root@knpappdm01:~# less /var/svc/log/application-pkg-system-repository:default.log
+[ 2019 May 23 15:50:30 Disabled. ]
+[ 2020 Jan  8 21:43:06 Disabled. ]
+[ 2020 Jan 17 23:02:32 Disabled. ]
+[ 2020 Jan 31 03:01:10 Disabled. ]
+[ 2020 Jan 31 03:19:07 Disabled. ]
+[ 2020 Feb  4 00:23:44 Disabled. ]
+[ 2020 Feb  4 00:39:47 Disabled. ]
+[ 2020 Feb  4 01:41:20 Disabled. ]
+[ 2020 Feb  6 09:46:43 Disabled. ]
+
+root@knpappdm01:~# less /lib/svc/manifest/application/pkg/pkg-system-repository.xml
+<!--
+    Restrict privileges to basic,net_privaddr and the paths
+    that are allowed to operate on.
+-->
+    <exec_method
+        type='method'
+        name='start'
+        exec='/lib/svc/method/svc-pkg-sysrepo start'
+        timeout_seconds='300'>
+        <method_context>
+        <method_credential user='pkg5srv'
+            group='pkg5srv'
+            privileges='basic,net_privaddr,{zone}:/system/volatile/pkg*' />
+        </method_context>
+    </exec_method>
+<property_group name='config' type='application'>
+    <stability value='Evolving' />
+        <!-- The port we listen on -->
+    <propval name='port' type='count' value='1008' />
+        <!-- The host we're running on -->
+    <propval name='host' type='astring' value='127.0.0.1' />
+        <!-- Where we store apache logs -->
+    <propval name='log_dir' type='astring'
+        value='/var/log/pkg/sysrepo' />
+        <!-- Where we store runtime versions of our configuration -->
+    <propval name='runtime_dir' type='astring'
+        value='/system/volatile/pkg/sysrepo' />
+        <!-- Where we store our Mako templates for generating runtime configuration -->
+    <propval name='template_dir' type='astring'
+        value='/etc/pkg/sysrepo' />
+        <!-- Where we store our sysrepo apache cache
+    If cache_dir is set to the special value "None" then we
+    do not perform caching.  If cache_dir is set to the
+    special value "memory" we use an in-memory cache.
+    Note that this property is consumed by
+    svc:/application/pkg/sysrepo-cache-compact-->
+    <propval name='cache_dir' type='astring'
+        value='/var/cache/pkg/sysrepo' />
+        <!-- Our maximum cache size, expressed in MB
+    Note that this property is consumed by
+    svc:/application/pkg/sysrepo-cache-compact
+    -->
+    <propval name='cache_max' type='count' value='2048' />
+    <propval name='value_authorization' type='astring'
+        value='solaris.smf.value.pkg-sysrepo' />
+        <!-- If the system-repository itself should use web
+    proxies to gain access to pkg(7) repositories,
+    specify those here in, the form http://<host>:[port]
+    -->
+    <propval name='http_proxy' type='astring' value='' />
+    <propval name='https_proxy' type='astring' value='' />
+</property_group>
+#
+#
+#
+#
+#
+#
+####################
+###########
+#
+svc:/system/pkgserv:default
+#
+###########
+####################
+#
+#
+#
+#
+#
+#
+root@knpappdm01:~# svcs -l svc:/system/pkgserv:default
+fmri         svc:/system/pkgserv:default
+name         Flush package command database to disk (see pkgadm(8)).
+enabled      true
+state        online
+next_state   none
+state_time   February  6, 2020 at  5:46:55 PM UTC
+logfile      /var/svc/log/system-pkgserv:default.log
+restarter    svc:/system/svc/restarter:default
+manifest     /lib/svc/manifest/system/pkgserv.xml
+dependency   require_all/none svc:/system/filesystem/minimal (online)
+
+root@knpappdm01:~# svcprop -a svc:/system/pkgserv:default
+general/complete astring
+general/enabled boolean true
+general/entity_stability astring Unstable
+general/single_instance boolean true
+dependents/pkgserv-self-assembly-complete fmri svc:/milestone/self-assembly-complete
+manifestfiles/lib_svc_manifest_system_pkgserv_xml astring /lib/svc/manifest/system/pkgserv.xml
+start/exec astring /usr/bin/pkgadm\ sync
+start/timeout_seconds count 300
+start/type astring method
+startd/duration astring transient
+stop/exec astring /usr/bin/pkgadm\ sync
+stop/timeout_seconds count 300
+stop/type astring method
+tm_common_name/C ustring Flush\ package\ command\ database\ to\ disk\ \(see\ pkgadm\(8\)\).
+usr/entities fmri svc:/system/filesystem/minimal
+usr/grouping astring require_all
+usr/restart_on astring none
+usr/type astring service
+restarter/auxiliary_state astring dependencies_satisfied
+restarter/logfile astring /var/svc/log/system-pkgserv:default.log
+restarter/next_state astring none
+restarter/start_method_timestamp time 1581011215.249210000
+restarter/start_method_waitstatus integer 0
+restarter/start_pid count 187
+restarter/state astring online
+restarter/state_timestamp time 1581011215.351330000
+restarter/transient_contract count
+restarter_actions/enable_complete time 1581011215.389152000
+#
+#
+#
+#
+#
+#
+####################
+###########
+#
+svc:/application/pkg/repositories-setup:default
+#
+###########
+####################
+#
+#
+#
+#
+#
+#
+root@knpappdm01:~# svcs -l svc:/application/pkg/repositories-setup:default
+fmri         svc:/application/pkg/repositories-setup:default
+name         IPS rpool/VARSHARE/pkg creation
+enabled      true
+state        online
+next_state   none
+state_time   February  6, 2020 at  5:47:21 PM UTC
+logfile      /var/svc/log/application-pkg-repositories-setup:default.log
+restarter    svc:/system/svc/restarter:default
+manifest     /lib/svc/manifest/application/pkg/pkg-repositories-setup.xml
+dependency   require_all/none svc:/system/filesystem/local:default (online)
+
+root@knpappdm01:~# svcprop -a svc:/application/pkg/repositories-setup:default
+general/complete astring
+general/enabled boolean true
+general/entity_stability astring Evolving
+filesystem-local/entities fmri svc:/system/filesystem/local:default
+filesystem-local/grouping astring require_all
+filesystem-local/restart_on astring none
+filesystem-local/type astring service
+manifestfiles/lib_svc_manifest_application_pkg_pkg-repositories-setup_xml astring /lib/svc/manifest/application/pkg/pkg-repositories-setup.xml
+start/exec astring /lib/svc/method/svc-pkg-repositories-setup\ start
+start/timeout_seconds count 60
+start/type astring method
+startd/duration astring transient
+stop/exec astring :true
+stop/timeout_seconds count 60
+stop/type astring method
+tm_common_name/C ustring IPS\ rpool/VARSHARE/pkg\ creation
+restarter/auxiliary_state astring dependencies_satisfied
+restarter/logfile astring /var/svc/log/application-pkg-repositories-setup:default.log
+restarter/next_state astring none
+restarter/start_method_timestamp time 1581011241.142411000
+restarter/start_method_waitstatus integer 0
+restarter/start_pid count 817
+restarter/state astring online
+restarter/state_timestamp time 1581011241.205627000
+restarter/transient_contract count
+restarter_actions/enable_complete time 1581011241.211146000
+
+
+
+
+
+
+
+
+
+
+
+
+
+#DEVHIAL
+svc:/application/pkg/zones-proxy-client:default
+
+svc:/system/pkgserv:default
+svc:/application/pkg/repositories-setup:default (def=enabled)
+
+
+
+
+
+
+
+
+
+
+
+
+root@dev-hial1:/system# zoneadm list -v
+  ID NAME             STATUS      PATH                         BRAND      IP
+   6 dev-hial1        running     /                            solaris    excl
+
+root@dev-hial1:/var/pkg# pkg publisher
+PUBLISHER                   TYPE     STATUS P LOCATION
+solaris        (syspub)     origin   online F <system-repository>
+root@dev-hial1:/var/pkg# pkg publisher solaris
 
             Publisher: solaris
                 Alias:
@@ -17,23 +560,25 @@ root@dev-hial1:~# pkg publisher solaris
            Origin Status: Online
               SSL Key: None
              SSL Cert: None
-          Client UUID: b200d934-c6dc-11ea-a754-41023615c7fd
+          Client UUID: 5618aad6-c784-11ea-a75a-41023615c7fd
       Catalog Updated: July 13, 2020 at  9:57:10 PM
               Enabled: Yes
 
-##################
-####################Try curling:
+root@dev-hial1:/var/pkg/ssl# cp /export/pkgs/splunk/pkg.oracle.com.* .
+root@dev-hial1:/var/pkg/ssl# ls
+pkg.oracle.com.certificate.pem  pkg.oracle.com.key.pem
+root@dev-hial1:/var/pkg/ssl# pkg update
+pkg: 0/1 catalogs successfully updated:
+http protocol error: Unknown error code: 403 reason: Forbidden
+URL: 'http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs'
 
-root@dev-hial1:~# curl http://localhost:1008
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>404 Not Found</title>
-</head><body>
-<h1>Not Found</h1>
-<p>The requested URL / was not found on this server.</p>
-</body></html>
+root@dev-hial1:/var/pkg/ssl# curl -I http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs
+HTTP/1.1 403 Forbidden
+Date: Thu, 16 Jul 2020 17:07:47 GMT
+Server: Apache/2.4.37 (Unix) OpenSSL/1.0.2q mod_wsgi/4.5.1 Python/2.7.14
+Content-Type: text/html; charset=iso-8859-1
 
-root@dev-hial1:~# curl http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs
+root@dev-hial1:/var/pkg/ssl# curl http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/catalog/1/catalog.attrs
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
 <title>403 Forbidden</title>
@@ -44,55 +589,294 @@ on this server.<br />
 </p>
 </body></html>
 
+root@dev-hial1:/var/pkg/ssl# curl http://localhost:1008
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL / was not found on this server.</p>
+</body></html>
 
-##################
-####################Cannot try to re-add origin under different pub name:
-root@dev-hial1:~# pkg set-publisher -k /root/pkg.oracle.com.key.pem \
-> -c /root/pkg.oracle.com.certificate.pem \
-> -G "*" \
-> -g https://pkg.oracle.com/solaris/support/ \
-> --proxy http://192.168.60.250:8008 \
-> solaris1
+root@dev-hial1:/var/pkg/ssl# curl -I http://localhost:1008
+HTTP/1.1 404 Not Found
+Date: Thu, 16 Jul 2020 17:11:31 GMT
+Server: Apache/2.4.37 (Unix) OpenSSL/1.0.2q mod_wsgi/4.5.1 Python/2.7.14
+Content-Type: text/html; charset=iso-8859-1
 
-One or more of the repository origin(s) listed below contains package data for solaris; not solaris1:
+root@dev-hial1:/var/pkg/ssl# svcs \*pkg\*
+STATE          STIME    FMRI
+disabled       May_06   svc:/application/pkg/depot:default
+disabled       May_06   svc:/application/pkg/dynamic-mirror:default
+disabled       May_06   svc:/application/pkg/mirror:default
+disabled       May_06   svc:/application/pkg/server:default
+online         May_06   svc:/system/pkgserv:default
+online         May_06   svc:/application/pkg/zones-proxy-client:default
+online         May_06   svc:/application/pkg/repositories-setup:default
+#
+#
+#
+#
+#
+#
+####################
+###########
+#
+CHECKED svc:/system/pkgserv:default
+#
+###########
+####################
+#
+#
+#
+#
+#
+#
+root@dev-hial1:/var/pkg/ssl# svcs -l svc:/system/pkgserv:default
+fmri         svc:/system/pkgserv:default
+name         Flush package command database to disk (see pkgadm(8)).
+enabled      true
+state        online
+next_state   none
+state_time   May  6, 2020 at  5:47:56 PM UTC
+logfile      /var/svc/log/system-pkgserv:default.log
+restarter    svc:/system/svc/restarter:default
+manifest     /lib/svc/manifest/system/pkgserv.xml
+dependency   require_all/none svc:/system/filesystem/minimal (online)
 
-https://pkg.oracle.com/solaris/support/
+root@dev-hial1:/var/pkg/ssl# svcprop -a svc:/system/pkgserv:default
+general/complete astring
+general/enabled boolean true
+general/entity_stability astring Unstable
+general/single_instance boolean true
+dependents/pkgserv-self-assembly-complete fmri svc:/milestone/self-assembly-complete
+manifestfiles/lib_svc_manifest_system_pkgserv_xml astring /lib/svc/manifest/system/pkgserv.xml
+start/exec astring /usr/bin/pkgadm\ sync
+start/timeout_seconds count 300
+start/type astring method
+startd/duration astring transient
+stop/exec astring /usr/bin/pkgadm\ sync
+stop/timeout_seconds count 300
+stop/type astring method
+tm_common_name/C ustring Flush\ package\ command\ database\ to\ disk\ \(see\ pkgadm\(8\)\).
+usr/entities fmri svc:/system/filesystem/minimal
+usr/grouping astring require_all
+usr/restart_on astring none
+usr/type astring service
+restarter/auxiliary_state astring dependencies_satisfied
+restarter/logfile astring /var/svc/log/system-pkgserv:default.log
+restarter/next_state astring none
+restarter/start_method_timestamp time 1588787275.993041000
+restarter/start_method_waitstatus integer 0
+restarter/start_pid count 3363
+restarter/state astring online
+restarter/state_timestamp time 1588787276.177008000
+restarter/transient_contract count
+restarter_actions/enable_complete time 1588787276.226904000
 
-This is either because one of the repository origins is not valid for this publisher, or because the list of known publishers retrieved from the repository origin does not match the client.
 
-##################
-####################Cannot remove bad URI:
+#
+#
+#
+#
+#
+#
+####################
+###########
+#
+CHECKED svc:/application/pkg/zones-proxy-client:default
+#
+###########
+####################
+#
+#
+#
+#
+#
+#
+root@dev-hial1:/var/pkg/ssl# svcs -l svc:/application/pkg/zones-proxy-client:default
+fmri         svc:/application/pkg/zones-proxy-client:default
+name         Zones Proxy Client
+enabled      true
+state        online
+next_state   none
+state_time   May  6, 2020 at  5:48:00 PM UTC
+logfile      /var/svc/log/application-pkg-zones-proxy-client:default.log
+restarter    svc:/system/svc/restarter:default
+contract_id  671
+manifest     /lib/svc/manifest/application/pkg/zoneproxy-client.xml
+dependency   require_any/none svc:/system/filesystem/minimal (online)
+dependency   require_any/error svc:/milestone/network (online)
 
+root@dev-hial1:/var/pkg/ssl# svcs -p svc:/application/pkg/zones-proxy-client:default
+STATE          STIME    FMRI
+online         May_06   svc:/application/pkg/zones-proxy-client:default
+               May_06        5386 zoneproxy-clie
 
-root@dev-hial1:~# pkg set-publisher -G http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/ solaris
-Unable to remove origin 'http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/' since it is provided by the system repository.
+root@dev-hial1:/var/pkg/ssl# ps -p 5386 -lZ
+ F S     ZONE    UID   PID  PPID   C PRI NI     SZ TTY         TIME CMD
+ 0 S dev-hial1      0  5386  1748   0  40 20    424 ?           0:00 zoneprox
 
+root@dev-hial1:~# ps -ef | grep 5386
+    root  5386  1748   0   May 06 ?           0:00 /usr/lib/zones/zoneproxy-client -s localhost:1008
 
-##################
-####################This got rid of good URI:
-pkg set-publisher -G "*" solaris
+root@dev-hial1:/var/pkg/ssl# /usr/lib/zones/zoneproxy-client
+usage: zoneproxy-client -s proxyaddr:proxyport
 
-##################
-####################Works in PS.
-martel.meyers@kdcps-hial-wls1:~$ sudo pkg publisher solaris
+root@dev-hial1:/var/pkg/ssl# svcprop -a svc:/application/pkg/zones-proxy-client:default
+general/complete astring
+general/enabled boolean true
+general/entity_stability astring Unstable
+general/single_instance boolean true
+config/listen_host astring localhost
+config/listen_port integer 1008
+fs/entities fmri svc:/system/filesystem/minimal
+fs/grouping astring require_any
+fs/restart_on astring none
+fs/type astring service
+manifestfiles/lib_svc_manifest_application_pkg_zoneproxy-client_xml astring /lib/svc/manifest/application/pkg/zoneproxy-client.xml
+network/entities fmri svc:/milestone/network
+network/grouping astring require_any
+network/restart_on astring error
+network/type astring service
+start/exec astring /usr/lib/zones/zoneproxy-client\ -s\ %{config/listen_host}:%{config/listen_port}
+start/timeout_seconds count 300
+start/trusted_path boolean false
+start/type astring method
+start/use_profile boolean false
+start/user astring root
+stop/exec astring :kill
+stop/timeout_seconds count 300
+stop/trusted_path boolean false
+stop/type astring method
+stop/use_profile boolean false
+stop/user astring root
+tm_common_name/C ustring Zones\ Proxy\ Client
+tm_man_pkg_sysrepo8/manpath astring /usr/share/man
+tm_man_pkg_sysrepo8/section astring 8
+tm_man_pkg_sysrepo8/title astring pkg.sysrepo
+restarter/auxiliary_state astring dependencies_satisfied
+restarter/contract count 671
+restarter/logfile astring /var/svc/log/application-pkg-zones-proxy-client:default.log
+restarter/next_state astring none
+restarter/start_method_timestamp time 1588787280.052093000
+restarter/start_method_waitstatus integer 0
+restarter/start_pid count 5379
+restarter/state astring online
+restarter/state_timestamp time 1588787280.060444000
+restarter_actions/enable_complete time 1588787280.064089000
 
-            Publisher: solaris
-                Alias:
-           Origin URI: http://localhost:1008/solaris/d128a99fd3947168959e98b71186ac07b91ad444/
-           Origin Status: Online
-              SSL Key: None
-             SSL Cert: None
-          Client UUID: a5897616-c55b-11ea-86f8-d98f5a4ad2c3
-      Catalog Updated: November 19, 2019 at 11:36:59 PM
-              Enabled: Yes
-martel.meyers@kdcps-hial-wls1:~$ sudo pkg publisher exa-family
+root@dev-hial1:/var/pkg/ssl# less /var/svc/log/application-pkg-zones-proxy-client:default.log
+[ 2020 Feb  7 03:52:47 Disabled. ]
+[ 2020 Feb  7 03:52:54 Enabled. ]
+[ 2020 Feb  7 03:52:57 Executing start method ("/usr/lib/zones/zoneproxy-client -s localhost:1008"). ]
+[ 2020 Feb  7 03:52:59 Method "start" exited with status 0. ]
+[ 2020 Feb  6 20:03:54 Enabled. ]
+[ 2020 Feb  6 20:03:57 Executing start method ("/usr/lib/zones/zoneproxy-client -s localhost:1008"). ]
+[ 2020 Feb  6 20:03:57 Method "start" exited with status 0. ]
+[ 2020 Feb  6 20:05:33 Enabled. ]
+[ 2020 Feb  6 20:05:36 Executing start method ("/usr/lib/zones/zoneproxy-client -s localhost:1008"). ]
+[ 2020 Feb  6 20:05:36 Method "start" exited with status 0. ]
+[ 2020 Mar 30 12:32:03 Stopping because service disabled. ]
+[ 2020 Mar 30 12:32:03 Executing stop method (:kill). ]
+[ 2020 Mar 30 12:34:32 Enabled. ]
+[ 2020 Mar 30 12:34:37 Executing start method ("/usr/lib/zones/zoneproxy-client -s localhost:1008"). ]
+[ 2020 Mar 30 12:34:37 Method "start" exited with status 0. ]
+[ 2020 Mar 30 12:45:38 Enabled. ]
+[ 2020 Mar 30 12:45:41 Executing start method ("/usr/lib/zones/zoneproxy-client -s localhost:1008"). ]
+[ 2020 Mar 30 12:45:41 Method "start" exited with status 0. ]
+[ 2020 May  6 17:45:37 Stopping because service disabled. ]
+[ 2020 May  6 17:45:37 Executing stop method (:kill). ]
+[ 2020 May  6 17:47:53 Enabled. ]
+[ 2020 May  6 17:47:59 Executing start method ("/usr/lib/zones/zoneproxy-client -s localhost:1008"). ]
+[ 2020 May  6 17:48:00 Method "start" exited with status 0. ]
 
-            Publisher: exa-family
-                Alias:
-           Origin URI: http://localhost:1008/exa-family/4638c1202aeb1b6083b5bd9a4ccf928bce181e13/
-           Origin Status: Online
-              SSL Key: None
-             SSL Cert: None
-          Client UUID: ac972c32-c55b-11ea-86fb-d98f5a4ad2c3
-      Catalog Updated: November 19, 2019 at 10:39:12 PM
-              Enabled: Yes
+root@dev-hial1:~# less /lib/svc/manifest/application/pkg/zoneproxy-client.xml
+<dependency name='fs'
+    grouping='require_any'
+    restart_on='none'
+    type='service'>
+    <service_fmri value='svc:/system/filesystem/minimal' />
+</dependency>
+<dependency name='network'
+    grouping='require_any'
+    restart_on='error'
+    type='service'>
+    <service_fmri value='svc:/milestone/network' />
+</dependency>
+<exec_method
+    type='method'
+    name='start'
+    exec='/usr/lib/zones/zoneproxy-client -s %{config/listen_host}:%{config/listen_port}'
+    timeout_seconds='300'>
+    <method_context>
+        <method_credential user='root'/>
+    </method_context>
+</exec_method>
+<property_group name='config' type='application'>
+    <propval name='listen_host' type='astring' value='localhost' />
+    <propval name='listen_port' type='integer' value='1008' />
+</property_group>
+<documentation>
+<manpage title='pkg.sysrepo' section='8'
+    manpath='/usr/share/man' />
+</documentation>
+
+#
+#
+#
+#
+#
+#
+####################
+###########
+#
+CHECKED svc:/application/pkg/repositories-setup:default
+#
+###########
+####################
+#
+#
+#
+#
+#
+#
+root@dev-hial1:/var/pkg/ssl# svcs -l svc:/application/pkg/repositories-setup:default
+fmri         svc:/application/pkg/repositories-setup:default
+name         IPS rpool/VARSHARE/pkg creation
+enabled      true
+state        online
+next_state   none
+state_time   May  6, 2020 at  5:48:02 PM UTC
+logfile      /var/svc/log/application-pkg-repositories-setup:default.log
+restarter    svc:/system/svc/restarter:default
+manifest     /lib/svc/manifest/application/pkg/pkg-repositories-setup.xml
+dependency   require_all/none svc:/system/filesystem/local:default (online)
+
+root@dev-hial1:/var/pkg/ssl# svcprop -a svc:/application/pkg/repositories-setup:default
+general/complete astring
+general/enabled boolean true
+general/entity_stability astring Evolving
+filesystem-local/entities fmri svc:/system/filesystem/local:default
+filesystem-local/grouping astring require_all
+filesystem-local/restart_on astring none
+filesystem-local/type astring service
+manifestfiles/lib_svc_manifest_application_pkg_pkg-repositories-setup_xml astring /lib/svc/manifest/application/pkg/pkg-repositories-setup.xml
+start/exec astring /lib/svc/method/svc-pkg-repositories-setup\ start
+start/timeout_seconds count 60
+start/type astring method
+startd/duration astring transient
+stop/exec astring :true
+stop/timeout_seconds count 60
+stop/type astring method
+tm_common_name/C ustring IPS\ rpool/VARSHARE/pkg\ creation
+restarter/auxiliary_state astring dependencies_satisfied
+restarter/logfile astring /var/svc/log/application-pkg-repositories-setup:default.log
+restarter/next_state astring none
+restarter/start_method_timestamp time 1588787282.223498000
+restarter/start_method_waitstatus integer 0
+restarter/start_pid count 5756
+restarter/state astring online
+restarter/state_timestamp time 1588787282.418820000
+restarter/transient_contract count
+restarter_actions/enable_complete time 1588787282.421198000

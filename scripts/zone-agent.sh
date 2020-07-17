@@ -11,6 +11,11 @@
 ####        requires pkg to work
 ##########  ##########  ##########\/
 pkgfix() {
+    chmod 600 /root/pkg.oracle.com.key.pem
+
+    pkgadm addcert -n solsr -e /root/pkg.oracle.com.key.pem \
+    /root/pkg.oracle.com.certificate.pem
+
     pkg update --accept
     pkg install git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config
 }

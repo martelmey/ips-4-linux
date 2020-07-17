@@ -30,7 +30,27 @@ reposetupremote() {
 
     pkg update --accept
 
-    #run pkg update on zones to test
+    svcadm enable -s svc:/application/pkg/system-repository:default
+    svccfg -v -s svc:/application/pkg/system-repository:default setprop config/http_proxy=http://192.168.60.250:8008
+
+    svcadm enable -s svc:/application/pkg/zones-proxyd:default
+}
+
+repocheck() {
+    pkg publisher solaris
+    svcs \*pkg\*
+
+    #svcs -l svc:/application/pkg/zones-proxyd:default (def=disabled)
+    #svcprop -a svc:/application/pkg/zones-proxyd:default
+
+    #svcs -l svc:/application/pkg/system-repository:default (def=disabled)
+    #svcprop -a svc:/application/pkg/system-repository:default
+
+    #svcs -l svc:/system/pkgserv:default (def=enabled)
+    #svcprop -a svc:/system/pkgserv:default
+
+    #svcs -l svc:/application/pkg/repositories-setup:default (def=enabled)
+    #svcprop -a svc:/application/pkg/repositories-setup:default
 }
 
 #Option2
@@ -57,4 +77,8 @@ buildcollectd() {
     --host=sparc-sun-solaris2.10 \
     --target=sparc-sun-solaris2.10
     make
+}
+
+pkgcollectd() {
+
 }
