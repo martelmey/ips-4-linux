@@ -31,6 +31,16 @@ SRKEY=/root/pkg.oracle.com.key.pem
 SRCERT=/root/pkg.oracle.com.certificate.pem
 HTTP_PROXY=http://192.168.60.250:8008
 
+tar -cf usrinclude.tar /usr/include && mv usrinclude.tar /export/pkgs/splunk
+tar -cf lib.tar /lib && mv lib.tar /export/pkgs/splunk
+tar -cf usrlib.tar /usr/lib && mv usrlib.tar /export/pkgs/splunk
+tar -cf usropenwininclude.tar /usr/openwin/include && mv usropenwininclude.tar /export/pkgs/splunk
+tar -cf usrdtinclude.tar /usr/dt/include && mv usrdtinclude.tar /export/pkgs/splunk
+tar -cf usrx11include.tar /usr/X11/include && mv usrx11include.tar /export/pkgs/splunk
+tar -cf usropenwinlib.tar /usr/openwin/lib && mv usropenwinlib.tar /export/pkgs/splunk
+tar -cf usrdtlib.tar /usr/dt/lib && mv usrdtlib.tar /export/pkgs/splunk
+tar -cf usrx11lib.tar /usr/X11/lib && mv usrx11lib.tar /export/pkgs/splunk
+
 #Option1
 #Relies on outbound/inbound access to 192.168.60.250:8008
 reposetupremote() {

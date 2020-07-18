@@ -1,5 +1,11 @@
 #!/usr/bin/bash
 
+gcc -dumpmachine
+
+tar -cf usrinclude.tar /usr/include && mv usrinclude.tar /export/pkgs/splunk
+tar -cf lib.tar /lib && mv lib.tar /export/pkgs/splunk
+tar -cf usrlib.tar /usr/lib && mv usrlib.tar /export/pkgs/splunk
+
 #Two solutions for getting collectd metrics onto agents:
 #(1) build on agents
 #   (*) requires pkg to be working. csw stream won't build properly.

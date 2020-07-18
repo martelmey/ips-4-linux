@@ -1,0 +1,4 @@
+set name=pkg.fmri value=pkg://solaris
+set name=variant.arch value=sparc
+set name=com.oracle.info.name value=collectd
+depend fmri=developer/build/automake-115 type=require
