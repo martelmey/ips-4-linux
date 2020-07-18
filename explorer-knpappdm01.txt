@@ -1,0 +1,294 @@
+root@knpappdm01:~# explorer -w default,pkgverify,localzones
+
+Jul 17 18:29:09 knpappdm01[24315] explorer: ERROR  EXPL-10003: Explorer defaults file not found
+Jul 17 18:29:09 knpappdm01[24315] explorer: ERROR  Run "/usr/sbin/explorer -g" to generate the defaults file.
+root@knpappdm01:~# explorer -g
+-----
+
+Oracle Corporation respects your desire for privacy. Personal information
+collected from this form will not be shared with organizations external to
+Oracle without your consent, except to process data on Oracle's behalf in
+connection with this transaction. We will use your personal information for
+communications regarding Oracle equipment and service related topics associated
+with the data submitted.
+
+Oracle, as a global company, may transfer your personal information to
+countries which may not provide an adequate level of protection. Oracle,
+however, is committed to providing a suitable & consistent level of protection
+for your personal information regardless of the country in which it resides.
+
+Completing the form below implies agreement with the above processing.
+
+If you have any questions please refer to the Oracle Privacy Policy or contact
+us. Note that entry of personal information into Explorer is optional.
+
+
+If you have any questions about this form or in the future wish to update or
+delete any of the information provided, please contact Oracle.
+
+-----
+
+Absolute path of the Explorer defaults file?
+[/etc/explorer/default/explorer]:
+Absolute path of the Explorer output top location?
+[/var/explorer/output]:
+Should Explorer create /var/explorer/output (y/n)?
+[y]: y
+
+Retrieving serial number ... (can take time)
+
+Company name
+[]: CGI
+Contract Identifier
+[]:
+System (knpappdm01, 86e356c6) serial number
+[unknown]:
+Contact name
+[]: Martel Meyers
+Contact email address
+[]: martel.meyers@cgi.com
+Phone number
+[]: 12506614495
+Address (line 1)
+[]: 1175 Douglas Street
+Address (line 2)
+[]: Victoria, British Columbia
+City
+[]: Victoria
+State
+[]: BC
+Zip
+[]: V8W 2E1
+Select your geography from this list:
+    1) AMERICAS
+    2) EMEA
+    3) APAC
+[AMERICAS] 1
+AMERICAS
+Two-character country code or '?' for a list of countries
+[]: ?
+AI  Anguilla
+AQ  Antartica
+AG  Antigua and Barbuda
+AR  Argentina
+AW  Aruba
+BS  Bahamas
+BB  Barbados
+BZ  Belize
+BM  Bermuda
+BO  Bolivia
+BQ  Bonaire, Sint Eustatius and Saba
+BR  Brazil
+CA  Canada
+KY  Cayman Islands
+CL  Chile
+CO  Colombia
+Press ENTER for more countries or 'q' to quit the list
+CA
+CR  Costa Rica
+CU  Cuba
+CW  Curacao
+DM  Dominica
+DO  Dominican Republic
+EC  Ecuador
+SV  El Salvador
+FK  Falkland Islands [Malvinas]
+GF  French Guiana
+GD  Grenada
+GP  Guadeloupe
+GT  Guatemala
+GY  Guyana
+HT  Haiti
+HN  Honduras
+JM  Jamaica
+Press ENTER for more countries or 'q' to quit the list
+q
+Two-character country code or '?' for a list of countries
+[]: CA
+Select the Explorer default transport upload method from this list:
+    1) Using Diagnostic Assistant (DA)
+    2) Other transport
+    3) None
+[Using Diagnostic Assistant (DA)]
+Selected: Using Diagnostic Assistant (DA)
+Do you want to configure Diagnostic Assistant to save credentials (y/n)?
+[y]:
+Configuring Diagnostic Assistant to save credentials ... (can take time)
+
+If you would like to be notified by email when your explorer output is uploaded
+into the repository, enter the email address here. When notification is not
+needed, enter a single '-'.
+[]: martel.meyers@cgi.com
+
+You have answered:
+               Company name: CGI
+                Contract ID:
+
+       System serial number: unknown
+
+               Contact name: Martel Meyers
+      Contact email address: martel.meyers@cgi.com
+               Phone number: 12506614495
+           Address (line 1): 1175 Douglas Street
+           Address (line 2): Victoria, British Columbia
+                       City: Victoria
+                      State: BC
+                        Zip: V8W 2E1
+                    Country: Canada
+               Country Code: CA
+
+                  Geography: AMERICAS
+      Default result upload: Using Diagnostic Assistant (DA)
+           Mail output from: martel.meyers@cgi.com
+          Mail on data load: martel.meyers@cgi.com
+Are these values okay (y/n)?
+[]: y
+Do you wish to schedule explorer in cron (y/n)?
+[]: n
+Jul 17 18:36:14 knpappdm01[24376] explorer:  Explorer defaults file updated.
+Jul 17 18:36:14 knpappdm01[24376] explorer:  Run /usr/sbin/explorer with options to collect data.
+
+         Please note that, to maintain the security of your information:
+
+         * the Explorer secure temporary directory must be owned by root
+           with permission set to 700 as protection
+         * the Explorer configuration directory structure must be owned by
+           root and only accessible by root
+         * the configuration directory and input files should not be located
+           on a Network Files System (NFS) drive
+         * the collection results are created so that they are only accessible
+           by root; ensure that the output directory is placed on a location
+           where these restrictions can be enforced
+
+        These guidelines are also available in Note 2267204.1.
+
+Enter 'y' to confirm that you have read this notice
+[y]: y
+
+root@knpappdm01:~# explorer -w default,pkgverify,localzones
+EXP_CONTRACT_ID not set!
+
+1 warnings found in /etc/explorer/default/explorer
+
+Because the -SR command line option was not used, it is necessary to ask
+the following question. A response is expected within 40 seconds. Otherwise,
+Explorer assumes a negative answer.
+Is this Explorer run associated with a Service Request (y/n)?
+[n]: y
+Please enter Service Request Identifier
+[]: 3-23583684411
+Oracle Explorer Data Collector 19.1
+Jul 17 18:39:43 knpappdm01[24852] explorer:  Explorer ID: explorer.86e356c6.knpappdm01-2020.07.17.18.38
+Jul 17 18:39:43 knpappdm01[24852] rda:  RUNNING
+Jul 17 18:39:43 knpappdm01[24852] rda:  Initializing RDA
+Jul 17 18:39:43 knpappdm01[24852] rda:  Running RDA
+------------------------------------------------------------------------------
+RDA Data Collection Started 17-Jul-2020 18:39:47
+------------------------------------------------------------------------------
+Processing RDA.BEGIN module ...
+Processing RDA.CONFIG module ...
+Processing XPLR module ...
+Jul 17 18:39:52 knpappdm01[24852] begin:RUNNING
+Jul 17 18:39:52 knpappdm01[24852] ilomsnapshot_start:RUNNING
+Jul 17 18:39:52 knpappdm01[24852] patch:RUNNING
+Jul 17 18:39:53 knpappdm01[24852] pkg:RUNNING
+Jul 17 18:40:33 knpappdm01[24852] pkgverify:RUNNING
+Jul 17 18:42:00 knpappdm01[24852] sysconfig:RUNNING
+Jul 17 18:43:50 knpappdm01[24852] ndd:RUNNING
+Jul 17 18:43:54 knpappdm01[24852] netinfo:RUNNING
+Jul 17 18:45:00 knpappdm01[24852] platform_serial:RUNNING
+Jul 17 18:45:59 knpappdm01[24852] servicetags:RUNNING
+Jul 17 18:45:59 knpappdm01[24852] cluster:RUNNING
+Jul 17 18:46:02 knpappdm01[24852] quorumserv:RUNNING
+Jul 17 18:46:02 knpappdm01[24852] lp:RUNNING
+Jul 17 18:46:03 knpappdm01[24852] sf15k_sc:RUNNING
+Jul 17 18:46:03 knpappdm01[24852] ilomextended:RUNNING
+Jul 17 18:46:05 knpappdm01[24852] xscfextended:RUNNING
+Jul 17 18:46:05 knpappdm01[24852] sf15k_ndd:RUNNING
+Jul 17 18:46:06 knpappdm01[24852] u4ft:RUNNING
+Jul 17 18:46:06 knpappdm01[24852] ipmiextended:RUNNING
+Jul 17 18:46:06 knpappdm01[24852] ipmi:RUNNING
+Jul 17 18:52:25 knpappdm01[24852] Tx000:RUNNING
+Jul 17 18:52:29 knpappdm01[24852] ssp:RUNNING
+Jul 17 18:52:29 knpappdm01[24852] sunray:RUNNING
+Jul 17 18:52:29 knpappdm01[24852] fma:RUNNING
+Jul 17 18:52:44 knpappdm01[24852] fru:RUNNING
+Jul 17 18:52:44 knpappdm01[24852] disks:RUNNING
+Jul 17 18:53:11 knpappdm01[24852] zfsconfig:RUNNING
+Jul 17 18:53:20 knpappdm01[24852] storedge:RUNNING
+Jul 17 18:53:20 knpappdm01[24852] fcal:RUNNING
+Jul 17 18:53:20 knpappdm01[24852] lvm:RUNNING
+Jul 17 18:53:20 knpappdm01[24852] storade:RUNNING
+Jul 17 18:53:20 knpappdm01[24852] samfs:RUNNING
+Jul 17 18:53:20 knpappdm01[24852] sanextended:RUNNING
+Jul 17 18:53:20 knpappdm01[24852] emc:RUNNING
+Jul 17 18:53:21 knpappdm01[24852] vxfs:RUNNING
+Jul 17 18:53:21 knpappdm01[24852] vxvm:RUNNING
+Jul 17 18:53:21 knpappdm01[24852] RAIDmanager:RUNNING
+Jul 17 18:53:21 knpappdm01[24852] tape:RUNNING
+Jul 17 18:53:21 knpappdm01[24852] st25xx:RUNNING
+Jul 17 18:53:21 knpappdm01[24852] se3kextended:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] se3k:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] st5800:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] se61xx:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] sonoma:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] photon:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] t3extended:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] t3:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] ssa:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] stortools:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] vtsst:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] lic:RUNNING
+Jul 17 18:53:22 knpappdm01[24852] crypto:RUNNING
+Jul 17 18:53:23 knpappdm01[24852] ldap:RUNNING
+Jul 17 18:53:23 knpappdm01[24852] sbu:RUNNING
+Jul 17 18:53:23 knpappdm01[24852] ldom:RUNNING
+Jul 17 18:53:30 knpappdm01[24852] init:RUNNING
+Jul 17 18:53:30 knpappdm01[24852] smfextended:RUNNING
+Jul 17 18:53:43 knpappdm01[24852] etc:RUNNING
+Jul 17 18:53:43 knpappdm01[24852] var:RUNNING
+Jul 17 18:53:44 knpappdm01[24852] ilomsnapshot_finish:RUNNING
+Jul 17 18:53:44 knpappdm01[24852] messages:RUNNING
+Jul 17 18:53:45 knpappdm01[24852] asrDiagUtil:RUNNING
+Jul 17 18:53:45 knpappdm01[24852] end:RUNNING
+Processing RDA.END module ...
+------------------------------------------------------------------------------
+RDA Data Collection Ended 17-Jul-2020 18:53:57
+------------------------------------------------------------------------------
+Jul 17 18:53:57 knpappdm01[24852] rda:  Cleaning RDA work directories
+Jul 17 18:53:57 knpappdm01[24852] explorer:  data collection complete
+Jul 17 18:54:02 knpappdm01[24852] explorer:  Removing previous explorers from /var/explorer/output ...
+Jul 17 18:54:02 knpappdm01[24852] explorer:  Explorer finished
+
+The result of the Oracle Explorer data collection can be found in the
+/var/explorer/output directory.
+The packed result is: explorer.86e356c6.knpappdm01-2020.07.17.18.38.tar.gz
+You can send this file to Oracle.
+
+Do not submit any health, payment card or other sensitive production
+data that requires protections greater than those specified in the
+Oracle GCS Security Practices
+(http://www.oracle.com/us/support/library/customer-support-security-practices-069170.pdf).
+Information on how to remove data from your submission is available at
+https://support.oracle.com/rs?type=doc&id=1227943.1.
+You have new mail in /var/mail/root
+
+root@knpappdm01:~# mail
+From noaccess@knpappdm01.np.health.local Fri Jul 17 18:43:38 2020
+Date: Fri, 17 Jul 2020 18:43:38 GMT
+From: No Access User <noaccess@knpappdm01.np.health.local>
+Message-Id: <202007171843.06HIhcTO026123@knpappdm01.np.health.local>
+Subject: Fault Management Event: knpappdm01:NIC-8000-1C
+To: root@knpappdm01.np.health.local
+Content-Length: 794
+
+SUNW-MSG-ID: NIC-8000-1C, TYPE: Fault, VER: 1, SEVERITY: Critical
+EVENT-TIME: Fri Jul 17 18:43:38 UTC 2020
+PLATFORM: SPARC T8-2, CSN: 1921NN85TL, HOSTNAME: knpappdm01
+SOURCE: eft, REV: 1.16
+EVENT-ID: b452fe16-74a3-4151-add8-8e9ef0e9c1b7
+DESC: The network device failed to configure a feature. A(n) invalid_state error has been detected during driver's runtime context causing a(n) config service impact.
+Firmware: FW 5.1.42098 API 1.5 eetrack 0x80003072 NVM 0x5005
+AUTO-RESPONSE: One or more device instances may be disabled.
+IMPACT: Loss of services provided by the device instances associated with this fault.
+REC-ACTION: Please refer to the associated reference document at http://support.oracle.com/msg/NIC-8000-1C for the latest service procedures and policies regarding this diagnosis.

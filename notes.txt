@@ -2,6 +2,31 @@
 === +++
 === ===
 === === === +++
+=== +++ LINKS
+=== === === +++
+=== ===
+=== +++
++++
+
+Solaris 11.4 SRU Patch Index:
+https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=477603020976996&parent=DOCUMENT&sourceId=1928542.1&id=2433412.1&_afrWindowMode=0&_adf.ctrl-state=iydfnhbrw_171
+
+man pkg.sysrepo(8)
+https://docs.oracle.com/cd/E88353_01/html/E72487/pkg.sysrepo-8.html#scrolltoc
+
+pkg.mirror cronjob for pkgrecv
+https://docs.oracle.com/cd/E36784_01/html/E36805/pkgmirror.html
+
+ref for reposetuplocal()
+https://docs.oracle.com/cd/E37838_01/html/E60982/cpfromzip.html#scrolltoc
+
+locales
+https://docs.oracle.com/cd/E23824_01/html/E26033/glmen.html#scrolltoc
+
++++
+=== +++
+=== ===
+=== === === +++
 === +++ TASKS
 === === === +++
 === ===
@@ -16,6 +41,8 @@
   ERROR: unable to read private key
   ERROR: Cannot add private key from </root/pkg.oracle.com.key.pem>.  No changes have been made.
 [] does root need reboot?
+[] config pkg.depotd w/ pkg/inst_root etc.
+[] review other mans
 
 +++
 === +++
@@ -45,16 +72,42 @@ SYSREPO_HTTP_CONF=/system/volatile/pkg/sysrepo/sysrepo_httpd.conf
 === +++
 === ===
 === === === +++
+=== +++ REPOS
+=== === === +++
+=== ===
+=== +++
++++
+(OLD) (root domain and logical domain)
+PUBLISHER                   TYPE     STATUS P LOCATION
+solaris                     origin   online F file:///net/192.168.63.230/Shared/S11.4_GA_repo/
+root@knpapp11:~# pkg publisher solaris
+Publisher: solaris
+Alias:
+Origin URI: file:///net/192.168.63.230/Shared/S11.4_GA_repo/
+Origin Status: Online
+SSL Key: None
+SSL Cert: None
+Client UUID: 9f412c18-477f-11ea-a085-d7645c9bba67
+Catalog Updated: January 30, 2020 at  8:20:55 PM
+Enabled: Yes
+
+(NEW)
+
++++
+=== +++
+=== ===
+=== === === +++
 === +++ SERVICES
 === === === +++
 === ===
 === +++
 +++
 
-   #######
-### ROOT  ###
-   #######
-###       ###
+###         ###
+   #########
+###  ROOT   ###
+   #########
+
 (1)
 svc:/application/pkg/system-repository:default
 	- default: disabled
@@ -65,12 +118,15 @@ svc:/application/pkg/system-repository:default
 
   - process: 20289, 20290, 20291, 20292, 20293 httpd
 
-  - config/cache_dir /var/cache/pkg/sysrepo
-  - config/host 127.0.0.1
-  - config/http_proxy ""
-  - config/log_dir /var/log/pkg/sysrepo
-  - config/port 1008
-  - config/runtime_dir /system/volatile/pkg/sysrepo
+  config/cache_dir astring /var/cache/pkg/sysrepo
+  config/cache_max count 2048
+  config/host astring 127.0.0.1
+  config/http_proxy astring ""
+  config/https_proxy astring ""
+  config/log_dir astring /var/log/pkg/sysrepo
+  config/port count 1008
+  config/runtime_dir astring /system/volatile/pkg/sysrepo
+
 (2)
 svc:/application/pkg/zones-proxyd:default
 	- default: disabled
@@ -81,9 +137,10 @@ svc:/application/pkg/zones-proxyd:default
 
   - process: 20314 zoneproxyd
 
-  - start/user: pkg5srv
-  - sysrepo/entities: svc:/application/pkg/system-repository
-	- depends: svc:/application/pkg/system-repository
+  start/exec astring /usr/lib/zones/zoneproxyd
+  start/user astring pkg5srv
+  sysrepo/entities fmri svc:/application/pkg/system-repository
+
 (3)
 svc:/system/pkgserv:default
 	- default: enabled
@@ -91,6 +148,16 @@ svc:/system/pkgserv:default
   - logfile: /var/svc/log/system-pkgserv:default.log
   - manifest: /lib/svc/manifest/system/pkgserv.xml
   - exec: /usr/bin/pkgadm\ sync
+
+  config/cache_dir astring /var/cache/pkg/sysrepo
+  config/cache_max count 2048
+  config/host astring 127.0.0.1
+  config/http_proxy astring ""
+  config/https_proxy astring ""
+  config/log_dir astring /var/log/pkg/sysrepo
+  config/port count 1008
+  config/runtime_dir astring /system/volatile/pkg/sysrepo
+
 (4)
 svc:/application/pkg/repositories-setup:default
 	- default: enabled
@@ -98,10 +165,39 @@ svc:/application/pkg/repositories-setup:default
   - logfile: /var/svc/log/application-pkg-repositories-setup:default.log
   - manifest: /lib/svc/manifest/application/pkg/pkg-repositories-setup.xml
   - exec: /lib/svc/method/svc-pkg-repositories-setup\ start
+
+###         ###
+   #########
+###  LDOM   ###
+   #########
+
+(1)
+svc:/application/pkg/system-repository:default
+  (OLD)
+  config/cache_dir astring /var/cache/pkg/sysrepo
+  config/cache_max count 2048
+  config/host astring 127.0.0.1
+  config/http_proxy astring ""
+  config/https_proxy astring ""
+  config/log_dir astring /var/log/pkg/sysrepo
+  config/port count 1008
+  config/runtime_dir astring /system/volatile/pkg/sysrepo
+  config/stability astring Evolving
+  config/template_dir astring /etc/pkg/sysrepo
+  config/value_authorization astring solaris.smf.value.pkg-sysrepo
+
+(2)
+svc:/application/pkg/zones-proxyd:default
+(3)
+svc:/system/pkgserv:default
+(4)
+svc:/application/pkg/repositories-setup:default
+
 ###         ###
    #########
 ### DEVHIAL ###
    #########
+
 (2)
 svc:/application/pkg/zones-proxy-client:default
   - default: enabled
@@ -212,6 +308,18 @@ uid=97(pkg5srv) gid=97(pkg5srv)
 
 svcprop -a (all)
 
+man pkg.depotd
+pkg/
+  address
+  content_root 
+    - def = /usr/share/lib/pkg
+  inst_root (repo data)
+  port
+    - def = 80 (no ssl) = 443 (ssl)
+  proxy_base
+  ssl_cert_file
+  ssl_key_fileq
+
 netstat -s (all status)
   -P tcp
   -i (interfaces)
@@ -237,7 +345,8 @@ svccfg -v (verbose)
   set [-v(on)|-V(off)]
   refresh
   listprop
-  setprop (pkg/port=)
+  setprop (pkg/port) = type: [value]
+  delprop (pg/name)
 
 ps -j (session ID, process group ID)
   -l (long listing)

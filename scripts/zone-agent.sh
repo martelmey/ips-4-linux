@@ -11,6 +11,8 @@
 ####        requires pkg to work
 ##########  ##########  ##########\/
 pkgfix() {
+    svcadm refresh svc:/application/pkg/zones-proxy-client:default
+
     chmod 600 /root/pkg.oracle.com.key.pem
 
     pkgadm addcert -n solsr -e /root/pkg.oracle.com.key.pem \
@@ -40,3 +42,7 @@ buildcollectd() {
 ####  ####  install collectd (pkg)
 ####        may not require pkg to work (built & pkg'd offline - installed on agent)
 ##########  ##########  ##########\/
+
+installcollectd() {
+    #port to installAgent.sh once complete!
+}
