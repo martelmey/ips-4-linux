@@ -10,6 +10,8 @@
 
 Solaris 11.4 SRU Patch Index:
 https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=477603020976996&parent=DOCUMENT&sourceId=1928542.1&id=2433412.1&_afrWindowMode=0&_adf.ctrl-state=iydfnhbrw_171
+https://pkg-register.oracle.com/
+http://web.archive.org/web/20080705162714/http://developers.sun.com/
 
 man pkg.sysrepo(8)
 https://docs.oracle.com/cd/E88353_01/html/E72487/pkg.sysrepo-8.html#scrolltoc

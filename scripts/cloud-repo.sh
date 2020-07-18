@@ -12,11 +12,13 @@
 #   ssh -i .ssh/ssh-key-2020-07-17.key opc@150.136.102.55
 
 REMOTE=150.136.102.55
+PROFILE=/export/home/opc
 PKGKEY="/root/pkg.oracle.com.key.pem"
 PKGCERT="/root/pkg.oracle.com.certificate.pem"
 SSHKEY="~/.ssh/ssh-key-2020-07-17.key"
-LOCALES=/usr/lib/locale/<locale-name>/<localename>
-LOCALE=
+LOCALES="/usr/lib/locale/<locale-name>/<localename>"
+LOCALE="C"
+OCIAPI="https://iaas.us-ashburn-1.oraclecloud.com"
 
 housekeep() {
     #pkg change-facet facet.locale.en_*=True
@@ -43,9 +45,25 @@ housekeep() {
     MANPATH=/opt/developerstudio12.6/man:$MANPATH
     export MANPATH
 
-    #/opt/developerstudio12.6/bin/devstudio &
     pkg install bison git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config flex
     pkg install m4 libtoolize
+}
+
+/opt/developerstudio12.6/bin/devstudio &
+
+gccsparcv9() {
+    (
+    echo "TARGET=sparcv9-solaris2.11"
+    echo "PREFIX=/opt/cross"
+    echo "SYSROOT=$PREFIX/sysroot/"
+    echo "PATH=$PATH:$PREFIX/bin"
+    )>> $PROFILE && source $PROFILE
+
+    mkdir $PREFIX && mkdir $SYSROOT
+    cd /export/home/opc
+    mv *.tar $SYSROOT
+    cd $SYSROOT
+    tar -xvf *.tar
 }
 
 collectdcc() {
