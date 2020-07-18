@@ -19,6 +19,7 @@ SSHKEY="~/.ssh/ssh-key-2020-07-17.key"
 LOCALES="/usr/lib/locale/<locale-name>/<localename>"
 LOCALE="C"
 OCIAPI="https://iaas.us-ashburn-1.oraclecloud.com"
+SOLSTUDIO="/opt/developerstudio12.6/bin/devstudio"
 
 housekeep() {
     #pkg change-facet facet.locale.en_*=True
@@ -49,7 +50,7 @@ housekeep() {
     pkg install m4 libtoolize
 }
 
-/opt/developerstudio12.6/bin/devstudio &
+$SOLSTUDIO &
 
 gccsparcv9() {
     (
@@ -64,6 +65,12 @@ gccsparcv9() {
     mv *.tar $SYSROOT
     cd $SYSROOT
     tar -xvf *.tar
+
+    mkdir /scratch/users/build
+    cd /scratch/users/build
+    wget http://ftp.gnu.org/gnu/binutils/binutils-2.34.tar.gz
+
+    wget http://ftp.gnu.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.gz
 }
 
 collectdcc() {
