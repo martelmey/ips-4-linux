@@ -18,16 +18,6 @@ SSHKEY="~/.ssh/ssh-key-2020-07-17.key"
 LOCALES=/usr/lib/locale/<locale-name>/<localename>
 LOCALE=
 
-root@soldev:~/git# locale
-LANG=C.UTF-8
-LC_CTYPE="C"
-LC_NUMERIC="C"
-LC_TIME="C"
-LC_COLLATE="C"
-LC_MONETARY="C"
-LC_MESSAGES="C"
-LC_ALL=
-
 housekeep() {
     #pkg change-facet facet.locale.en_*=True
     svccfg -s svc:/system/environment:init setprop environment/LANG = astring: "C"
@@ -41,8 +31,21 @@ housekeep() {
     -c /root/pkg.oracle.com.certificate.pem \
     -G "*" -g https://pkg.oracle.com/solaris/support/ solaris
 
+    sudo pkg set-publisher \
+    -k /root/pkg.oracle.com.key.pem \
+    -c /root/pkg.oracle.com.certificate.pem \
+    -G "*" -g https://pkg.oracle.com/solarisstudio/release solarisstudio
+
+    pkg install -–accept developerstudio-126
     pkg update --accept
+    PATH=/opt/developerstudio12.6/bin:$PATH
+    export PATH
+    MANPATH=/opt/developerstudio12.6/man:$MANPATH
+    export MANPATH
+
+    #/opt/developerstudio12.6/bin/devstudio &
     pkg install bison git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config flex
+    pkg install m4 libtoolize
 }
 
 collectdcc() {
