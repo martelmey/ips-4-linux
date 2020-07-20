@@ -33,8 +33,10 @@ gccsparcv9() {
     mkdir $PREFIX && mkdir $SYSROOT
     mv /home/ubuntu/*.tar $SYSROOT && cd $SYSROOT
     tar -xvf *.tar
+    chown --recursive opc:staff $SYSROOT
 
     mkdir -p /scratch/users/build && cd /scratch/users/build
+    chown --recursive opc:staff /scratch/users/build
 
     wget http://ftp.gnu.org/gnu/texinfo/texinfo-6.7.tar.gz
     tar -zxvf texinfo-6.7.tar.gz
@@ -53,6 +55,15 @@ gccsparcv9() {
     mkdir build-gcc && cd build-gcc
     ../gcc-10.1.0/configure --target=$TARGET --with-gnu-as --with-gnu-ld  --prefix=$PREFIX -with-sysroot=$SYSROOT --disable-libgcj --enable-languages=c,c++ -v
     #Pickup here: https://gcc.gnu.org/install/prerequisites.html
+    #configure: error: Building GCC requires GMP 4.2+, MPFR 3.1.0+ and MPC 0.8.0+.
+    #Try the --with-gmp, --with-mpfr and/or --with-mpc options to specify
+    #their locations.  Source code for these libraries can be found at
+    #their respective hosting sites as well as at
+    #https://gcc.gnu.org/pub/gcc/infrastructure/.  See also
+    #http://gcc.gnu.org/install/prerequisites.html for additional info.  If
+    #you obtained GMP, MPFR and/or MPC from a vendor distribution package,
+    #make sure that you have installed both the libraries and the header
+    #files.  They may be located in separate packages.
     make all && make install
 }
 

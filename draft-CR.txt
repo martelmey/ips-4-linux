@@ -64,3 +64,7 @@ Address:        192.168.63.237#53
 230.63.168.192.in-addr.arpa     name = ldap2.np.health.local.
 
 pkg set-publisher -G "*" -g /export/pkgs/repos/solsr solaris
+#-or-#
+pkg set-publisher -k /root/pkg.oracle.com.key.pem \
+    -c /root/pkg.oracle.com.certificate.pem \
+    -G "*" -g https://pkg.oracle.com/solaris/support/ solaris

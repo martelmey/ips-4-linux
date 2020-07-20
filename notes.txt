@@ -39,16 +39,7 @@ https://www.cis.upenn.edu/~milom/cross-compile.html
 === +++
 +++
 
-[]  set Oracle SR repo thru zones-proxy-client
-[]  pkgadm error: 
-  ERROR: header too long
-  ERROR: bad object header
-  ERROR: nested asn1 error
-  ERROR: unable to read private key
-  ERROR: Cannot add private key from </root/pkg.oracle.com.key.pem>.  No changes have been made.
-[] does root need reboot?
-[] config pkg.depotd w/ pkg/inst_root etc.
-[] review other mans
+
 
 +++
 === +++
@@ -237,6 +228,20 @@ svc:/application/pkg/repositories-setup:default
 === +++
 === ===
 === === === +++
+=== +++ SOLDEV
+=== === === +++
+=== ===
+=== +++
++++
+
+as(1),  crle(1),  elfcompress(1), gprof(1), ld.so.1(1), ldd(1), mcs(1),
+pvs(1), strip(1), exec(2), stat(2),  dldump(3C),  zlib(3),  dlopen(3C),
+elf(3ELF), ar.h(3HEAD), a.out(5), attributes(7), sxadm(8), ld
+
++++
+=== +++
+=== ===
+=== === === +++
 === +++ CMD REF
 === === === +++
 === ===
@@ -247,25 +252,94 @@ svc:/application/pkg/repositories-setup:default
 ####  ####  zfs
 ##########  ##########  ##########\/
 
-192.168.61.132:/export/utilities-kdcprd/pkgs
-    ##On ZFS - best practice, would be nice to have; needs setup on 192.168.61.132
-    #zfs create -o atime=off rpool/repos
-    #zfs create rpool/repos/solsr
-    ## - rest of repo setup -
-    #zfs snapshot rpool/repos/solsr@solsr-11_4_23_0_1_69_3
+#zpool(8)
+#zfs_encrypt(8)
+#zfs_share(8)
 
-for kdcprd/ps ZS7-2: 
-utilities-splunk/npindx         (quota = 100 GB)
-utilities-splunk/psindx         (quota = 100 GB)
-utilities-splunk/prdindx        (quota = 200 GB)
+A dataset is identified by a unique path  within
+the ZFS namespace. For example:
+pool/{filesystem,volume(raw/block),snapshot(filesystem@name)}
 
-Application pool:
-Total usage = 0.21 TB
-Total free = 159 TB
- 
-Backup pool:
-Total usage = 78.0 TB
-Total free = 349 TB
+.zfs/snapshot
+/etc/vfstab
+
+zfs
+  allow
+  clone
+  create
+  destroy
+  diff
+  get
+  groupspace
+  hold
+  holds
+  Key
+  list
+  inherit
+  mount
+  promote
+  receive
+  release
+  rename
+  rollback
+  send
+  set
+    compression=on [dataset]
+  share
+  snapshot
+  unshare
+  upgrade
+  userspace
+  unallow
+
+native props:
+  available (space for dataset, all its children)
+  compressratio
+  creation (time of dataset creation)
+  origin (clones: snapshot from which created. cannot be destroyed while clone exists)
+  referenced (data accessible by dataset, may/not be shared with other datasets in the pool)
+  used (checked against dataset's quota & reserve)
+  usedbychildren (of this dataset)
+  usedbydataset
+  usedbyrefreservation
+  usedbysnapshots (in this dataset)
+  volblocksize=blocksize
+  effectivereadlimit (max thruput)
+  effectivewritelimit (lowest data limit at any point between root & dataset)
+
+native props (behaviour):
+  aclmode=discard | mask | passthrough
+  refreservation=size | none | auto
+  aclinherit=discard | noallow | restricted | passthrough | passthrough-x | passthrough-mode-preserve
+  atime=on | off
+  canmount=on | off | noauto
+  checksum=on | off | fletcher2,| fletcher4 | sha256 | sha256+mac (change affects only newly written data)
+  compression=on | off | lzjb | gzip | gzip-N | zle | lz4
+  copies=1 | 2 | 3
+  dedup=on | off | verify | sha256[,verify]
+  exec=on | off
+  logbias = latency | throughput
+  mountpoint=path | none | legacy
+  quota=size | none
+  readlimit=size | none | default
+  writelimit=size | none | default
+  defaultreadlimit=size | none
+  defaultwritelimit=size | none (applies only to descendents)
+  sync=standard | always | disabled
+  refquota=size | none
+  refreservation=size | none | auto
+  rstchown=on | off
+  sharenfs=on | off
+  volsize=size
+
+PROPERTY          MOUNT OPTION
+devices                 devices/nodevices
+mountpoint              mountpoint
+exec                    exec/noexec
+readonly                ro/rw
+setuid                  setuid/nosetuid
+xattr                   xattr/noxattr
+rstchown                rstchown/norstchown
 
 ##########  ##########  ##########\/
 ####  ####  zones
