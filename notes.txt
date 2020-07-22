@@ -29,6 +29,12 @@ cc
 https://stackoverflow.com/questions/9177678/how-i-can-get-a-cross-compiler-under-ubuntu-for-sparc-target
 https://www.cis.upenn.edu/~milom/cross-compile.html
 
+sparc
+setup 11.4 env
+https://docs.oracle.com/cd/E53394_01/html/E54833/glyfz.html#scrolltoc
+https://docs.oracle.com/cd/E37838_01/html/E61049/gnwre.html#scrolltoc
+
+
 +++
 === +++
 === ===

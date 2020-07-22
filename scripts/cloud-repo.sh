@@ -53,7 +53,14 @@ housekeep() {
     export MANPATH
 
     pkg install bison git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config flex
-    pkg install wget
+    pkg install wget zip
+    (
+        "developer/dtrace/toolkit"
+        "developer/build/gnu-make"
+        "group/feature/developer-gnu"
+        #"library/perl-5/sun-solaris"
+    )
+    
 }
 
 $SOLSTUDIO &
