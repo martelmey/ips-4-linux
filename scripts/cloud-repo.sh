@@ -58,7 +58,6 @@ housekeep() {
         "developer/dtrace/toolkit"
         "developer/build/gnu-make"
         "group/feature/developer-gnu"
-        #"library/perl-5/sun-solaris"
     )
     
 }
@@ -89,7 +88,7 @@ gccsparcv9() {
     ./contrib/download_prerequisites
     cd ..
     mkdir build-gcc && cd build-gcc
-    ./configure
+    ../gcc-10.1.0/configure
 
     git clone https://github.com/collectd/collectd.git
     git clone https://github.com/splunk/collectd-plugins.git

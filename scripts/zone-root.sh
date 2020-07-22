@@ -90,19 +90,40 @@ repofix() {
     pkg set-publisher -G "*" -g /export/pkgs/repos/solsr solaris
 }
 
+# wget https://ips-4-lin-xgcc.s3.amazonaws.com/collectd-5.9-wpatch.tar.gz
+# wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
 buildcollectd() {
     pkg install bison gcc SUNWpkgcmds libtool autoconf automake pkg-config flex
     pkg install pkg:/runtime/perl-526@5.26.2-11.4.0.0.1.14.0
     cd /root
-    cp /export/pkgs/splunk/sparc-collectd.tar .
-    tar -xvf sparc-collectd.tar && cd collectd
+    cp /export/pkgs/splunk/collectd-5.9-wpatch.tar.gz .
+    tar -xvf collectd-5.9-wpatch.tar.gz && cd collectd-5.9
     ./build.sh
-    ./configure \
-    --build=sparc-sun-solaris2.10 \
-    --host=sparc-sun-solaris2.10 \
-    --target=sparc-sun-solaris2.10
+    ./configure
     make
 }
+
+buildgcc() {
+    # Build on SPARC
+    # Make GCC, compiles SPARC code on x86_64-Linux-GNU
+    cd /home/martel.meyers
+    cp cp /export/pkgs/splunk/gcc-10.1.0-wreqs.tar.gz .
+    tar -xvf gcc-10.1.0-wreqs.tar.gz
+    mkdir build-gcc
+    ../gcc-10.1.0/configure --host x86_64-linux-gnu \
+    --build sparcv9-solaris2.11 --target sparcv9-solaris2.11
+
+    # Build on SPARC
+    # Make GCC, compiles SPARC code on x86_64-PC-Solaris2.11
+    cd /home/martel.meyers
+    cp cp /export/pkgs/splunk/gcc-10.1.0-wreqs.tar.gz .
+    tar -xvf gcc-10.1.0-wreqs.tar.gz
+    mkdir build-gcc
+    ../gcc-10.1.0/configure --host x86_64-pc-solaris2.11 \
+    --build sparcv9-solaris2.11 --target sparcv9-solaris2.11
+}
+
+
 
 pkgcollectd() {
 

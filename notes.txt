@@ -28,6 +28,7 @@ https://docs.oracle.com/cd/E23824_01/html/E26033/glmen.html#scrolltoc
 cc
 https://stackoverflow.com/questions/9177678/how-i-can-get-a-cross-compiler-under-ubuntu-for-sparc-target
 https://www.cis.upenn.edu/~milom/cross-compile.html
+https://linux.101hacks.com/unix/ldconfig/
 
 sparc
 setup 11.4 env
@@ -362,6 +363,39 @@ configure: loading site script /home/adl/usr/share/config.site
 GCC allows you to do this via cross compiling, You can download the source code for GCC and build a sparc compiler via changing the configuration for what the target architecture is and what the source architecture is
 
 ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
+i386-pc-solaris2.11
+
+# Provide some information about the compiler.
+$as_echo "$as_me:${as_lineno-$LINENO}: checking for C compiler version" >&5
+set X $ac_compile
+ac_compiler=$2
+for ac_option in --version -v -V -qversion; do
+  { { ac_try="$ac_compiler $ac_option >&5"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+
+  ld: fatal: library -lgcc: not found
+  ac_cv_env_LDFLAGS_set=''
+ac_cv_env_LDFLAGS_value=''
+ac_cv_env_LD_FOR_TARGET_set=''
+ac_cv_env_LD_FOR_TARGET_value=''
+ac_cv_env_LD_set=''
+ac_cv_env_LD_value=''
+
+/opt/cross/sysroot/usr/lib/sparcv9/libgcc_s.so.1
+/opt/cross/sysroot/usr/lib/sparcv9/libgcc_s.so
+/opt/cross/sysroot/usr/lib/libgcc_s.so.1
+/opt/cross/sysroot/usr/lib/libgcc_s.so
+/usr/lib/libgcc_s.so.1
+/usr/lib/libgcc_s.so
+/usr/lib/amd64/libgcc_s.so.1
+/usr/lib/amd64/libgcc_s.so
+/usr/gcc/9/lib/libgcc_s.so.1
+/usr/gcc/9/lib/amd64/libgcc_s.so
+/usr/gcc/9/lib/amd64/libgcc_s.so.1
+/usr/gcc/9/lib/libgcc-unwind.map
+/usr/gcc/9/lib/libgcc_s.so
 
 If you also intend to build binutils (either to upgrade an existing installation or for use in place of the corresponding tools of your OS), unpack the binutils distribution either in the same directory or a separate one. In the latter case, add symbolic links to any components of the binutils you intend to build alongside the compiler (bfd, binutils, gas, gprof, ld, opcodes, …) to the directory containing the GCC sources.
 

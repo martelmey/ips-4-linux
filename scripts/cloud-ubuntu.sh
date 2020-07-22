@@ -87,10 +87,20 @@ gccsparcv9() {
 
     wget http://ftp.gnu.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.gz
     tar -zxvf gcc-10.1.0.tar.gz
+    cd gcc-10.1.0
+    ./contrib/download_prerequisites
+    cd ..
     mkdir build-gcc && cd build-gcc
+    
+    ../gcc-10.1.0/configure
+
     ../gcc-10.1.0/configure --target=$TARGET --with-gnu-as --with-gnu-ld  \
     --prefix=$PREFIX -with-sysroot=$SYSROOT --disable-libgcj --enable-languages=c,c++\
     --with-mpc=/usr/local --with-mpfr=/usr/local --with-gmp=/usr/local -v 
+
+    ../gcc-10.1.0/configure --target=$TARGET --with-gnu-as --with-gnu-ld  \
+    --prefix=$PREFIX -with-sysroot=$SYSROOT --disable-libgcj --enable-languages=c,c++ -v
+    
     make all && make install
 }
 
