@@ -41,6 +41,9 @@ tar -cf usropenwinlib.tar /usr/openwin/lib && mv usropenwinlib.tar /export/pkgs/
 tar -cf usrdtlib.tar /usr/dt/lib && mv usrdtlib.tar /export/pkgs/splunk
 tar -cf usrx11lib.tar /usr/X11/lib && mv usrx11lib.tar /export/pkgs/splunk
 
+tar -cd usrlocallib.tar /usr/local/lib && mv usrlocallib.tar /export/pkgs/splunk
+tar -cd usrlocalinclude.tar /usr/local/include && mv usrlocalinclude.tar /export/pkgs/splunk
+
 #Option1
 #Relies on outbound/inbound access to 192.168.60.250:8008
 reposetupremote() {
@@ -54,6 +57,19 @@ reposetupremote() {
     -c /root/pkg.oracle.com.certificate.pem \
     -G "*" -g https://pkg.oracle.com/solaris/support/ \
     --proxy http://192.168.60.250:8008 solaris
+
+    sudo pkg set-publisher \
+    -k /root/pkg.oracle.com.key.pem \
+    -c /root/pkg.oracle.com.certificate.pem \
+    -G "*" -g https://pkg.oracle.com/solarisstudio/release \
+    --proxy http://192.168.60.250:8008 solarisstudio
+
+    #pkg install -–accept developerstudio-126
+    #pkg update --accept
+    #PATH=/opt/developerstudio12.6/bin:$PATH
+    #export PATH
+    #MANPATH=/opt/developerstudio12.6/man:$MANPATH
+    #export MANPATH
 
     pkg update --accept
 }

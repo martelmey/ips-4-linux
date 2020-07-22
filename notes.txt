@@ -249,6 +249,119 @@ elf(3ELF), ar.h(3HEAD), a.out(5), attributes(7), sxadm(8), ld
 +++
 
 ##########  ##########  ##########\/
+####  ####  gcc
+##########  ##########  ##########\/
+
+-save-temps
+-Wshadow
+-fmudflap
+
+-Wextra, -Wall: essential.
+
+-Wfloat-equal: useful because usually testing floating-point numbers for equality is bad.
+
+-Wundef: warn if an uninitialized identifier is evaluated in an #if directive.
+
+-Wshadow: warn whenever a local variable shadows another local variable, parameter or global variable or whenever a built-in function is shadowed.
+
+-Wpointer-arith: warn if anything depends upon the size of a function or of void.
+
+-Wformat=2
+
+-Wcast-align: warn whenever a pointer is cast such that the required alignment of the target is increased. For example, warn if a char * is cast to an int * on machines where integers can only be accessed at two- or four-byte boundaries.
+
+-Wstrict-prototypes: warn if a function is declared or defined without specifying the argument types.
+
+-Wstrict-overflow=5: warns about cases where the compiler optimizes based on the assumption that signed overflow does not occur. (The value 5 may be too strict, see the manual page.)
+
+-Wwrite-strings: give string constants the type const char[length] so that copying the address of one into a non-const char * pointer will get a warning.
+
+-Waggregate-return: warn if any functions that return structures or unions are defined or called.
+
+-Wcast-qual: warn whenever a pointer is cast to remove a type qualifier from the target type*.
+
+-Wswitch-default: warn whenever a switch statement does not have a default case*.
+
+-Wswitch-enum: warn whenever a switch statement has an index of enumerated type and lacks a case for one or more of the named codes of that enumeration*.
+
+-Wconversion: warn for implicit conversions that may alter a value*.
+
+-Wunreachable-code: warn if the compiler detects that code will never be executed*
+
+The -ftrapv function will cause the program to abort on signed integer overflow (formally "undefined behaviour" in C).
+-fsanitize=signed-integer-overflow
+
+-fverbose-asm is useful if you're compiling with -S to examine the assembly output - it adds some informative comments.
+
+-finstrument-functions adds code to call user-supplied profiling functions at every function entry and exit point.
+
+gcc -c [flags-go-here] -o myprog.o myprog.c
+
+--host: In which system the generated program will run.
+--build: In which system the program will be built.
+--target: this option is only used to build a cross-compiling toolchain. When the tool chain generates executable program, in which target system the program will run.
+
+'./configure --host=arm-linux --build=i686-pc-linux-gnu': the dynamically library is built on a x86 linux computer but will be used for a embedded arm linux system.
+
+'./configure --target=i686-pc-linux-gnu --host=arm-linux --build=i686-pc-linux-gnu':
+A gcc compiler is build on x86 linux computer. [--build]
+The gcc will be executed on an embedded arm linux system.[--host]
+But the gcc will generate the binary program, which run in a x86 linux system. [--target]
+
+--build=the architecture of the build machine
+--host=the architecture that you want the file to run on
+
+‘make all’ Build programs, libraries, documentation, etc.
+(Same as ‘make’.)
+‘make install’ Install what needs to be installed.
+‘make install-strip’ Same as ‘make install’, then strip debugging
+symbols.
+‘make uninstall’ The opposite of ‘make install’.
+‘make clean’ Erase what has been built (the opposite of ‘make
+all’).
+‘make distclean’ Additionally erase anything ‘./configure’
+created.
+‘make check’ Run the test suite, if any.
+‘make installcheck’ Check the installed programs or libraries, if
+supported.
+‘make dist’ Create PACKAGE-VERSION.tar.gz
+
+Directory variable Default value
+prefix /usr/ local
+  exec-prefix prefix
+    bindir exec-prefix/bin
+    libdir exec-prefix/lib
+    ...
+  includedir prefix/include
+  datarootdir prefix/share
+    datadir datarootdir
+    mandir datarootdir/man
+    infodir datarootdir/info
+  ...
+
+CC C compiler command
+CFLAGS C compiler flags
+CXX C++ compiler command
+CXXFLAGS C++ compiler flags
+LDFLAGS linker flags
+CPPFLAGS C/C++ preprocessor flags
+... See ‘./configure --help’ for a full list.
+
+~/amhello-1.0 % ./configure --prefix ~/usr CC=gcc-3 \
+CPPFLAGS=-I$HOME/usr/include LDFLAGS=-L$HOME/usr/lib
+
+Common configuration settings can be put in prefix/share/config.site
+configure: loading site script /home/adl/usr/share/config.site
+
+GCC allows you to do this via cross compiling, You can download the source code for GCC and build a sparc compiler via changing the configuration for what the target architecture is and what the source architecture is
+
+./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
+
+If you also intend to build binutils (either to upgrade an existing installation or for use in place of the corresponding tools of your OS), unpack the binutils distribution either in the same directory or a separate one. In the latter case, add symbolic links to any components of the binutils you intend to build alongside the compiler (bfd, binutils, gas, gprof, ld, opcodes, …) to the directory containing the GCC sources.
+
+Likewise the GMP, MPFR and MPC libraries can be automatically built together with GCC. You may simply run the contrib/download_prerequisites script in the GCC source directory to set up everything. Otherwise unpack the GMP, MPFR and/or MPC source distributions in the directory containing the GCC sources and rename their directories to gmp, mpfr and mpc, respectively (or use symbolic links with the same name).
+
+##########  ##########  ##########\/
 ####  ####  zfs
 ##########  ##########  ##########\/
 

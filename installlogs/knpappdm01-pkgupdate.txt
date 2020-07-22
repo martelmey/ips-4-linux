@@ -1,0 +1,121 @@
+root@knpappdm01:~# mkdir -p /export/pkgs
+root@knpappdm01:~# mount 192.168.61.132:\export/utilities-kdcprd/pkgs /export/pkgs
+root@knpappdm01:~# cp /export/pkgs/repos/pkg.oracle.com.*.pem .
+root@knpappdm01:~# pkg set-publisher -k /root/pkg.oracle.com.key.pem \
+>     -c /root/pkg.oracle.com.certificate.pem \
+>     -G "*" -g https://pkg.oracle.com/solaris/support/ \
+>     --proxy http://192.168.60.250:8008 solaris
+root@knpappdm01:~# pkg update --accept
+------------------------------------------------------------
+Package: pkg://solaris/release/notices@11.4-11.4.23.0.1.69.3:20200625T001244Z
+License: lic_OTN
+
+You acknowledge that your use of this Oracle Solaris software product
+is subject to, and may not exceed the use for which you are authorized,
+(i) the license or cloud services terms that you accepted when you
+obtained the right to use Oracle Solaris software; or (ii) the license
+terms that you agreed to when you placed your Oracle Solaris software
+order with Oracle; or (iii) the Oracle Solaris software license terms
+included with the hardware that you acquired from Oracle; or, if (i),
+(ii) or (iii) are not applicable, then, (iv) the OTN License Agreement
+for Oracle Solaris (which you acknowledge you have read and agree to)
+available at
+https://www.oracle.com/downloads/licenses/solaris-cluster-express-license.html.
+Note: Software downloaded for trial use or downloaded as replacement
+media may not be used to update any unsupported software.
+
+
+
+            Packages to remove:  15
+           Packages to install: 204
+            Packages to update: 640
+            Packages to change:   1
+           Mediators to change:   3
+       Create boot environment: Yes
+Create backup boot environment:  No
+
+Release Notes:
+
+pkg://solaris/service/network/ldap/openldap
+
+  Requirements to transition from one version of OpenLDAP to another.
+
+  _Only required if the system is being used as an OpenLDAP server._
+
+  Ordinarily a system is being used as an OpenLDAP server when SMF service
+  instance ldap/server is enabled and online.
+
+  For further information refer to instructions in
+  /usr/share/doc/release-notes/openldap-transition.txt
+
+
+pkg://solaris/legacy/runtime/python-35
+  Python 3.5 was moved into the legacy namespace and will be removed soon.
+  You should migrate to Python 3.7 or later. This also applies to all python
+  packages in their 3.5 variant (components with -35 suffix in their fmri).
+
+pkg://solaris/legacy/runtime/python-34
+  Python 3.4 was moved into the legacy namespace and will be removed soon.
+  You should migrate to Python 3.7 or later. This also applies to all python
+  packages in their 3.4 variant (components with -34 suffix in their fmri).
+
+pkg://solaris/network/ssh
+  Updated versions of OpenSSH may change the default configuration
+  including addition or removal of ciphers or other features.
+
+  If this system has a customised sshd_config(5) or ssh_config(5)
+  file you should review and may need to update it before using the
+  updated version of OpenSSH delivered by this package.
+
+  Note that users may also have settings in their HOME/.ssh/config
+  that need updating.
+
+  If the sshd_config references features removed by this version the
+  svc:/network/ssh:default service may be in the maintenance
+  state on the next reboot or after installation of this package.
+
+  For more information review the release notes for OpenSSH
+  in /usr/share/doc/release-notes/openssh/
+
+pkg://solaris/legacy/library/python/libxsl-27
+  XSLT library python bindings were moved into the legacy namespace and will
+  be removed soon in all of its shipped variants.
+
+pkg://solaris/legacy/library/python/net-snmp-27
+  The Net-SNMP python bindings were moved into the legacy namespace and will
+  be removed soon in all of its shipped variants.
+
+DOWNLOAD                                PKGS         FILES    XFER (MB)   SPEED
+Completed                            860/860   46606/46606  743.5/743.5  972k/s
+
+PHASE                                          ITEMS
+Removing old actions                     10880/10880
+Installing new actions                   27363/27363
+Updating modified actions                52441/52441
+Updating package state database                 Done
+Updating package cache                       655/655
+Updating image state                            Done
+Creating fast lookup database                   Done
+Updating package cache                           1/1
+
+A clone of solaris exists and has been updated and activated.
+On the next boot the Boot Environment be://rpool/solaris-1 will be
+mounted on '/'.  Reboot when ready to switch to this updated BE.
+
+Updating package cache                           1/1
+
+
+
+
+
+root@dev-hial1:~# pkg publisher solaris
+
+            Publisher: solaris
+                Alias:
+           Origin URI: http://localhost:1008/solaris/cd5f859ae60848b1316dffc9131991a8dcad0e4f/
+           Origin Status: Online
+              SSL Key: None
+             SSL Cert: None
+          Client UUID: 6a6b8dec-c7a1-11ea-a75e-41023615c7fd
+      Catalog Updated: July 13, 2020 at  9:57:10 PM
+              Enabled: Yes
