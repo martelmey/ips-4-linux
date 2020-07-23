@@ -91,18 +91,19 @@ repofix() {
 }
 
 # wget https://ips-4-lin-xgcc.s3.amazonaws.com/collectd-5.9-wpatch.tar.gz
-# wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
 buildcollectd() {
+    # Build on SPARC, runs on SPARC
     pkg install bison gcc SUNWpkgcmds libtool autoconf automake pkg-config flex
     pkg install pkg:/runtime/perl-526@5.26.2-11.4.0.0.1.14.0
-    cd /root
+    cd /export/home/martel.meyers/build
     cp /export/pkgs/splunk/collectd-5.9-wpatch.tar.gz .
-    tar -xvf collectd-5.9-wpatch.tar.gz && cd collectd-5.9
+    tar -xvf collectd-5.9-wpatch.tar.gz && cd collectd
     ./build.sh
-    ./configure
+    ./configure --host sparcv9-solaris2.11
     make
 }
 
+# wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
 buildgcc() {
     # Build on SPARC
     # Make GCC, compiles SPARC code on x86_64-Linux-GNU
