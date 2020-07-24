@@ -155,11 +155,21 @@ gccsparcv9() {
 
     # checking for suffix of object files... configure: error: in `/scratch/users/build/build-gcc/sparcv9-solaris2.11/libgcc':
     # configure: error: cannot compute suffix of object files: cannot compile
-    # re-run w/ $PREFIX & $SYSROOT
+    # \/ re-run w/ $PREFIX & $SYSROOT
 
     ../gcc-10.1.0/configure --build=x86_64-linux-gnu \
      --target=sparcv9-solaris2.11 \
      --prefix=$PREFIX -with-sysroot=$SYSROOT
+
+    # configure: error: cannot compute suffix of object files: cannot compile
+    # See `config.log' for more details
+    # Makefile:14569: recipe for target 'configure-target-libgcc' failed
+
+    ../gcc-10.1.0/configure --build=x86_64-linux-gnu \
+     --host=x86_64-linux-gnu \
+     --target=sparcv9-solaris2.11 \
+     --with-nan-emulation \
+     --prefix=$PREFIX -with-sysroot=$SYSROOT 
 
     make all && make install
 }

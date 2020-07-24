@@ -32,6 +32,7 @@ https://linux.101hacks.com/unix/ldconfig/
 https://gcc.gnu.org/onlinedocs/libiberty/Functions.html#Functions
 https://www.gnu.org/software/libc/
 https://sourceware.org/glibc/wiki/Testing/Builds
+https://gcc.gnu.org/onlinedocs/gccint/
 
 sparc
 setup 11.4 env

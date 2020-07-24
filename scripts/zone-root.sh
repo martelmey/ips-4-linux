@@ -64,12 +64,35 @@ reposetupremote() {
     -G "*" -g https://pkg.oracle.com/solarisstudio/release \
     --proxy http://192.168.60.250:8008 solarisstudio
 
-    #pkg install -–accept developerstudio-126
-    #pkg update --accept
+    pkg update --accept
+    pkg install -–accept developerstudio-126
     #PATH=/opt/developerstudio12.6/bin:$PATH
     #export PATH
     #MANPATH=/opt/developerstudio12.6/man:$MANPATH
     #export MANPATH
+    pkg install git \
+    developer/build/ant \
+    developer/build/automake \
+    developer/build/gnu-make \
+    developer/build/pkg-config \
+    developer/dtrace/toolkit \
+    developer/debug/gdb \
+    developer/debug/mdb \
+    developer/java/jdk \
+    developer/gcc-48 \
+    developer/lexer/flex \
+    group/feature/developer-gnu \
+    runtime/perl-512 \
+    system/header \
+    x11/header \
+    bison \
+    SUNWpkgcmds \
+    libtool \
+    autoconf \
+    pkg-config \
+    wget \
+    zip \
+    flex
 
     pkg update --accept
 }
@@ -106,22 +129,16 @@ buildcollectd() {
 # wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
 buildgcc() {
     # Build on SPARC
-    # Make GCC, compiles SPARC code on x86_64-Linux-GNU
-    cd /home/martel.meyers
-    cp cp /export/pkgs/splunk/gcc-10.1.0-wreqs.tar.gz .
-    tar -xvf gcc-10.1.0-wreqs.tar.gz
-    mkdir build-gcc
-    ../gcc-10.1.0/configure --host x86_64-linux-gnu \
-    --build sparcv9-solaris2.11 --target sparcv9-solaris2.11
-
-    # Build on SPARC
     # Make GCC, compiles SPARC code on x86_64-PC-Solaris2.11
     cd /home/martel.meyers
     cp cp /export/pkgs/splunk/gcc-10.1.0-wreqs.tar.gz .
     tar -xvf gcc-10.1.0-wreqs.tar.gz
     mkdir build-gcc
+
     ../gcc-10.1.0/configure --host x86_64-pc-solaris2.11 \
-    --build sparcv9-solaris2.11 --target sparcv9-solaris2.11
+    --build sparcv9-solaris2.11 --target sparcv9-solaris2.11 \
+    --with-nan-emulation \
+    --with-fp-layout <>
 }
 
 
