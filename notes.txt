@@ -29,12 +29,13 @@ cc
 https://stackoverflow.com/questions/9177678/how-i-can-get-a-cross-compiler-under-ubuntu-for-sparc-target
 https://www.cis.upenn.edu/~milom/cross-compile.html
 https://linux.101hacks.com/unix/ldconfig/
+https://gcc.gnu.org/onlinedocs/libiberty/Functions.html#Functions
 
 sparc
 setup 11.4 env
 https://docs.oracle.com/cd/E53394_01/html/E54833/glyfz.html#scrolltoc
 https://docs.oracle.com/cd/E37838_01/html/E61049/gnwre.html#scrolltoc
-
+https://gcc.gnu.org/onlinedocs/gcc/SPARC-Options.html
 
 +++
 === +++
@@ -364,6 +365,8 @@ GCC allows you to do this via cross compiling, You can download the source code 
 
 ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
 i386-pc-solaris2.11
+
+./configure --build=x86_64-linux-gnu --host=x86_64-pc-solaris2.11 --target=sparcv9-solaris2.11
 
 # Provide some information about the compiler.
 $as_echo "$as_me:${as_lineno-$LINENO}: checking for C compiler version" >&5

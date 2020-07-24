@@ -35,64 +35,38 @@ gccsparcv9() {
     mkdir $PREFIX && mkdir $SYSROOT
     mv /home/ubuntu/*.tar $SYSROOT && cd $SYSROOT
     tar -xvf *.tar
-    chown --recursive opc:staff $SYSROOT
-
+    chown --recursive ubuntu:root $SYSROOT
     mkdir -p /scratch/users/build && cd /scratch/users/build
-    chown --recursive opc:staff /scratch/users/build
+    chown --recursive ubuntu:root /scratch/users/build
 
-    # https://gcc.gnu.org/install/prerequisites.html
-    wget http://ftp.gnu.org/gnu/texinfo/texinfo-6.7.tar.gz
-    tar -zxvf texinfo-6.7.tar.gz
-    mkdir build-texinfo cd build-texinfo
-    ../texinfo-6.7/configure --host=$TARGET --prefix=$PREFIX -with-sysroot=$SYSROOT -v
-    make all && make install
-
-    wget http://ftp.gnu.org/gnu/binutils/binutils-2.34.tar.gz
-    tar -zxvf binutils-2.34.tar.gz
-    mkdir build-binutils && cd build-binutils
-    ../binutils-2.34/configure -target=$TARGET --prefix=$PREFIX -with-sysroot=$SYSROOT -v
-    make all && make install
-
-    wget https://gmplib.org/download/gmp/gmp-6.2.0.tar.xz
-    wget https://gcc.gnu.org/pub/gcc/infrastructure/gmp-6.1.0.tar.bz2
-    bunzip2 gmp-6.1.0.tar.bz2
-    tar -xvf gmp-6.1.0.tar
-    cd gmp-6.1.0
-    ../gmp-6.1.0/configure -target=$TARGET --prefix=$PREFIX -with-sysroot=$SYSROOT -v
-    make
-    make check
-    make install
-    ldconfig
-
-    # https://www.mpfr.org/mpfr-current/mpfr.html#Installing-MPFR
-    wget https://www.mpfr.org/mpfr-current/mpfr-4.1.0.tar.bz2
-    bunzip2 mpfr-4.1.0.tar.bz2
-    tar -xvf mpfr-4.1.0.tar
-    cd mpfr-4.1.0
-    ./configure --with-gmp-include=/usr/local/include --with-gmp-lib=/usr/local/lib
-    make
-    make check
-    make install
-    ldconfig
-
-    wget https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz
-    tar -zxvf mpc-1.1.0.tar.gz
-    cd mpc-1.1.0
-    ./configure --with-gmp-include=/usr/local/include --with-gmp-lib=/usr/local/lib \
-    --with-mpfr-include=/usr/local/include --with-mpfr-lib=/usr/local/lib
-    make
-    make check
-    make install
-    ldconfig
-
-    wget http://ftp.gnu.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.gz
-    tar -zxvf gcc-10.1.0.tar.gz
-    cd gcc-10.1.0
-    ./contrib/download_prerequisites
-    cd ..
-    mkdir build-gcc && cd build-gcc
     
-    ../gcc-10.1.0/configure
+    wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
+    tar -zxvf gcc-10.1.0.tar.gz
+    mkdir build-gcc && cd build-gcc
+    # Build on Ubuntu, run on x86_Solaris, generate SPARC_Solaris bins
+    #wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs-4soldev.tar.gz
+    ../gcc-10.1.0/configure --build=x86_64-linux-gnu \
+     --host=x86_64-pc-solaris2.11 \
+     --target=sparc-sun-solaris2.10 \
+     --prefix=$PREFIX -with-sysroot=$SYSROOT
+
+    #wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs-4soldev2.tar.gz
+    ../gcc-10.1.0/configure --build=x86_64-linux-gnu \
+     --host=x86_64-pc-solaris2.11 \
+     --target=sparc-sun-solaris2.10
+
+    #checking for x86_64-pc-solaris2.11-readelf... no
+    #checking for sparcv9-solaris2.11-cc... no
+
+    #x86_64-pc-solaris2.11-ar rc ./libiberty.a \
+    #./regex.o ./cplus-dem.o ./cp-demangle.o ./md5.o ./sha1.o ./alloca.o ./argv.o ./choose-temp.o ./concat.o ./cp-demint.o ./crc32.o ./d-demangle.o ./dwarfnames.o ./dyn-string.o ./fdmatch.o ./fibheap.o ./filedescriptor.o ./filename_cmp.o ./floatformat.o ./fnmatch.o ./fopen_unlocked.o ./getopt.o ./getopt1.o ./getpwd.o ./getruntime.o ./hashtab.o ./hex.o ./lbasename.o ./lrealpath.o ./make-relative-prefix.o ./make-temp-file.o ./objalloc.o ./obstack.o ./partition.o ./pexecute.o ./physmem.o ./pex-common.o ./pex-one.o ./pex-unix.o ./vprintf-support.o ./rust-demangle.o ./safe-ctype.o ./simple-object.o ./simple-object-coff.o ./simple-object-elf.o ./simple-object-mach-o.o ./simple-object-xcoff.o ./sort.o ./spaces.o ./splay-tree.o ./stack-limit.o ./strerror.o ./strsignal.o ./timeval-utils.o ./unlink-if-ordinary.o ./xasprintf.o ./xatexit.o ./xexit.o ./xmalloc.o ./xmemdup.o ./xstrdup.o ./xstrerror.o ./xstrndup.o ./xvasprintf.o  ./setproctitle.o
+    #/bin/bash: x86_64-pc-solaris2.11-ar: command not found
+    #Makefile:251: recipe for target 'libiberty.a' failed
+
+    #prefix = /opt/cross
+    #exec_prefix = ${prefix}
+    #tooldir = ${exec_prefix}/sparcv9-solaris2.11
+    #build_tooldir = ${exec_prefix}/sparcv9-solaris2.11
 
     ../gcc-10.1.0/configure --target=$TARGET --with-gnu-as --with-gnu-ld  \
     --prefix=$PREFIX -with-sysroot=$SYSROOT --disable-libgcj --enable-languages=c,c++\

@@ -28,7 +28,6 @@ GCC_SRCDIR=/scratch/users/build/gcc-10.1.0
 #export CONFIG_SHELL
 
 housekeep() {
-    #pkg change-facet facet.locale.en_*=True
     svccfg -s svc:/system/environment:init setprop environment/LANG = astring: "C"
     svccfg -s svc:/system/environment:init setprop environment/LC_ALL = astring: "C"
     svcadm refresh svc:/system/environment
@@ -45,21 +44,27 @@ housekeep() {
     -c /root/pkg.oracle.com.certificate.pem \
     -G "*" -g https://pkg.oracle.com/solarisstudio/release solarisstudio
 
-    pkg install -–accept developerstudio-126
     pkg update --accept
     PATH=/opt/developerstudio12.6/bin:$PATH
     export PATH
     MANPATH=/opt/developerstudio12.6/man:$MANPATH
     export MANPATH
 
-    pkg install bison git gcc unzip SUNWpkgcmds libtool autoconf automake pkg-config flex
-    pkg install wget zip
-    (
-        "developer/dtrace/toolkit"
-        "developer/build/gnu-make"
-        "group/feature/developer-gnu"
-    )
-    
+    pkg install bison git gcc unzip SUNWpkgcmds libtool autoconf pkg-config wget zip developerstudio-126 \
+    developer/build/ant \
+    developer/build/automake \
+    developer/build/gnu-make \
+    developer/build/pkg-config \
+    developer/dtrace/toolkit \
+    developer/debug/gdb \
+    developer/debug/mdb \
+    developer/java/jdk \
+    developer/gcc-48 \
+    developer/lexer/flex \
+    group/feature/developer-gnu \
+    runtime/perl-512 \
+    system/header \
+    x11/header 
 }
 
 $SOLSTUDIO &
@@ -82,61 +87,60 @@ gccsparcv9() {
     chown --recursive opc:staff /scratch/users/build
     cd /scratch/users/build
 
-    wget http://ftp.gnu.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.gz
+    wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
     tar -zxvf gcc-10.1.0.tar.gz
-    cd gcc-10.1.0
-    ./contrib/download_prerequisites
-    cd ..
     mkdir build-gcc && cd build-gcc
-    ../gcc-10.1.0/configure
+    # Build on x86_Solaris, run on x86_Solaris, generate SPARC_Solaris bins
+    ../gcc-10.1.0/configure --build=x86_64-pc-solaris2.11 \
+     --host=x86_64-pc-solaris2.11 \
+     --target=sparcv9-solaris2.11 \
+     --prefix=$PREFIX -with-sysroot=$SYSROOT \
+     --with-gnu-as --with-gnu-ld
+    
+    #checking whether the C compiler works... no
+    #configure: error: in `/export/home/opc/build-gcc':
+    #configure: error: C compiler cannot create executables
 
-    git clone https://github.com/collectd/collectd.git
-    git clone https://github.com/splunk/collectd-plugins.git
-    cd collectd && git checkout collectd-5.9
-    cp ../collectd-plugins/src/* src/
-    git apply ../collectd-plugins/add-splunk-plugins.patch
+    #configure:4465: checking whether the C compiler works
+    #configure:4487: gcc    conftest.c  >&5
+    #ld: fatal: library -lgcc: not found
+
+    ../gcc-10.1.0/./configure --build=x86_64-sun-solaris2.10 \
+    --host=x86_64-sun-solaris2.10 \
+    --target=sparc-sun-solaris2.10
+
+}
+
+collectdcc() {
+    wget https://ips-4-lin-xgcc.s3.amazonaws.com/collectd-5.9-wpatch.tar.gz
+    tar -zxvf collectd-5.9-wpatch.tar.gz
+    cd collectd
     ./build.sh
-    ./configure
+
+    #aclocal not found
+
+    ./configure --build=x86_64-pc-solaris2.11 --host=x86_64-pc-solaris2.11 --target=sparc-sun-solaris2.11
     make
     make check-TESTS
     make install
 }
 
-collectdcc() {
-    mkdir -p /root/git
-    cd /root/git
-    git clone https://github.com/splunk/collectd-plugins.git
-    git clone https://github.com/collectd/collectd.git
-    cd collectd && git checkout collectd-5.9
-    cp -f ../collectd-plugins/src/* src/
-    git apply ../collectd-plugins/add-splunk-plugins.patch
-    ./build.sh
+repo () {
+    chmod +x install-repo.ksh
+    zfs create -o atime=off rpool1/export/repoSolaris11
+    #zfs get atime rpool/export/repoSolaris11
+    mkdir -p /export/repoSolaris11/solaris
+    ./install-repo.ksh -d /export/repoSolaris11/solaris -c -v -I
+    zfs snapshot rpool/export/repoSolaris11/solaris@sol-11_4
 
-    #aclocal not found
-
-    ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
-    make
-    #make check-TESTS
-    make install
+    #curl \
+    #--url <"https://pkg.oracle.com/solaris/support/"> \
+    #--cert "$PKGCERT" \
+    #--key "$PKGKEY" \
+    #--key-type PEM \
+    #--output /root/remote_summary \
+    #--proxy-anyauth \
+    #--proxy#1.0 192.168.60.250:8008 \
+    #--proxytunnel \
+    #--trace#-ascii /root/remote_summary.trc
 }
-
-
-    ## DEV-TST-SCENARIO=2:
-    #local solaris support repo demo
-chmod +x install-repo.ksh
-zfs create -o atime=off rpool1/export/repoSolaris11
-#zfs get atime rpool/export/repoSolaris11
-mkdir -p /export/repoSolaris11/solaris
-./install-repo.ksh -d /export/repoSolaris11/solaris -c -v -I
-zfs snapshot rpool/export/repoSolaris11/solaris@sol-11_4
-
-#curl \
-#--url <"https://pkg.oracle.com/solaris/support/"> \
-#--cert "$PKGCERT" \
-#--key "$PKGKEY" \
-#--key-type PEM \
-#--output /root/remote_summary \
-#--proxy-anyauth \
-#--proxy#1.0 192.168.60.250:8008 \
-#--proxytunnel \
-#--trace#-ascii /root/remote_summary.trc
