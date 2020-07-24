@@ -30,12 +30,22 @@ https://stackoverflow.com/questions/9177678/how-i-can-get-a-cross-compiler-under
 https://www.cis.upenn.edu/~milom/cross-compile.html
 https://linux.101hacks.com/unix/ldconfig/
 https://gcc.gnu.org/onlinedocs/libiberty/Functions.html#Functions
+https://www.gnu.org/software/libc/
+https://sourceware.org/glibc/wiki/Testing/Builds
 
 sparc
 setup 11.4 env
 https://docs.oracle.com/cd/E53394_01/html/E54833/glyfz.html#scrolltoc
 https://docs.oracle.com/cd/E37838_01/html/E61049/gnwre.html#scrolltoc
 https://gcc.gnu.org/onlinedocs/gcc/SPARC-Options.html
+https://wiki.debian.org/CrossToolchains
+https://vlsiwiki.soe.ucsc.edu/index.php/Desktop_Setup_-_Ubuntu_10.04
+
+
+rhel
+https://developers.redhat.com/products/developertoolset/hello-world#fndtn-windows
+https://www.cyberciti.biz/faq/centos-linux-install-gcc-c-c-compiler/
+
 
 +++
 === +++
@@ -257,8 +267,59 @@ elf(3ELF), ar.h(3HEAD), a.out(5), attributes(7), sxadm(8), ld
 +++
 
 ##########  ##########  ##########\/
+####  ####  yum/dnf
+##########  ##########  ##########\/
+
+check
+check-update
+clean
+deplist
+info
+install
+  --best
+list
+  --installed
+  --available
+provides
+  </usr/bin/gcc>
+remove
+repoinfo
+repolist
+search
+updateinfo
+upgrade
+
+
+##########  ##########  ##########\/
+####  ####  rpm
+##########  ##########  ##########\/
+
+---query [select-options] [query-options]
+
+##########  ##########  ##########\/
 ####  ####  gcc
 ##########  ##########  ##########\/
+
+build_configargs
+              additional configure arguments for build directories
+  host_configargs
+              additional configure arguments for host directories
+  target_configargs
+              additional configure arguments for target directories
+  AR          AR for the host
+  AS          AS for the host
+  DLLTOOL     DLLTOOL for the host
+  LD          LD for the host
+  LIPO        LIPO for the host
+  NM          NM for the host
+  RANLIB      RANLIB for the host
+  STRIP       STRIP for the host
+  WINDRES     WINDRES for the host
+  WINDMC      WINDMC for the host
+  OBJCOPY     OBJCOPY for the host
+  OBJDUMP     OBJDUMP for the host
+  OTOOL       OTOOL for the host
+  READELF     READELF for the host
 
 -save-temps
 -Wshadow
