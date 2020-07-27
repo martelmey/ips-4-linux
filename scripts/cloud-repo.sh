@@ -1,16 +1,5 @@
 #!/usr/bin/bash
 
-## LOCAL (wls-ubuntu)
-#   cd ~/
-#   cp /mnt/c/Users/martel.meyers/Desktop/oraclecloud/*.key .ssh
-#   cp /mnt/c/Users/martel.meyers/Desktop/oraclecloud/*.pem .ssh
-#   chmod 700 .ssh
-#   chmod 644 .ssh/ssh-key-*.key.pub
-#   chmod 600 .ssh/ssh-key-*.key
-#   scp -i ~/.ssh/ssh-key-2020-07-17.key ~/.ssh/pkg.oracle.com.key.pem opc@150.136.102.55:/export/home/opc
-#   scp -i ~/.ssh/ssh-key-2020-07-17.key ~/.ssh/pkg.oracle.com.certificate.pem opc@150.136.102.55:/export/home/opc
-#   ssh -i .ssh/ssh-key-2020-07-17.key opc@150.136.102.55
-
 BUILD=x86_64-pc-solaris2.11
 HOST=x86_64-pc-solaris2.11
 TARGET=sparcv9-solaris2.11
@@ -21,13 +10,9 @@ PKGCERT="/root/pkg.oracle.com.certificate.pem"
 SSHKEY="~/.ssh/ssh-key-2020-07-17.key"
 LOCALES="/usr/lib/locale/<locale-name>/<localename>"
 LOCALE="C"
-OCIAPI="https://iaas.us-ashburn-1.oraclecloud.com"
-SOLSTUDIO="/opt/developerstudio12.6/bin/devstudio"
-GCC_SRCDIR=/scratch/users/build/gcc-10.1.0
-#CONFIG_SHELL=/bin/ksh
-#export CONFIG_SHELL
+SOLSTUDIO="/opt/developerstudio12.6/bin/devstudio"\
 
-housekeep() {
+installdeps() {
     svccfg -s svc:/system/environment:init setprop environment/LANG = astring: "C"
     svccfg -s svc:/system/environment:init setprop environment/LC_ALL = astring: "C"
     svcadm refresh svc:/system/environment
@@ -50,7 +35,17 @@ housekeep() {
     MANPATH=/opt/developerstudio12.6/man:$MANPATH
     export MANPATH
 
-    pkg install bison git gcc unzip SUNWpkgcmds libtool autoconf pkg-config wget zip developerstudio-126 \
+    pkg install \
+    bison \
+    git \
+    gcc \
+    unzip \
+    SUNWpkgcmds \
+    libtool \
+    autoconf \
+    pkg-config \
+    wget \
+    developerstudio-126 \
     developer/build/ant \
     developer/build/automake \
     developer/build/gnu-make \
@@ -62,14 +57,48 @@ housekeep() {
     developer/gcc-48 \
     developer/lexer/flex \
     group/feature/developer-gnu \
-    runtime/perl-512 \
     system/header \
-    x11/header 
+    x11/header \
+    library/ncurses \
+    developer/gnu-binutils-cross-sparc \
+    developer/gnu-binutils \
+    developer/gcc/gcc-c++-9 \
+    developer/gcc/gcc-common-9 \
+    developer/macro/cpp \
+    text/gnu-patch \
+    system/core-os \
+    network/rsync \
+    runtime/perl-526 \
+    runtime/perl-common
+
+    cd /usr/bin/aclocal
+    cp aclocal-1.15 aclocal-1.15.bak
+    mv aclocal-1.15 aclocal
+
+    # /usr/gcc/9/bin
+    # /usr/lib/
+    # /opt/developerstudio12.6/bin
+    # /opt/developerstudio12.6/lib
+    # /usr/gnu/sparcv9-sun-solaris2.11/bin
+    # /usr/gnu/sparcv9-sun-solaris2.11/lib
+    # /usr/gnu/x86_64-pc-solaris2.11/bin
+    # /usr/gnu/x86_64-pc-solaris2.11/lib
+    # /opt/cross/sysroot/usr/include
+    # /opt/cross/sysroot/usr/lib
+    # /opt/cross/sysroot/lib
+
+    # /usr/share/automake-1.15
 }
 
-$SOLSTUDIO &
+buildroot() {
+    # not-as root
+    wget https://buildroot.org/downloads/buildroot-2020.05.tar.gz
+    tar -zxvf buildroot-2020.05.tar.gz && cd buildroot-2020.05
+    make menuconfig
+    make
+}
 
-gccsparcv9() {
+buildgcc() {
     (
     echo "TARGET=sparcv9-solaris2.11"
     echo "PREFIX=/opt/cross"
@@ -96,30 +125,16 @@ gccsparcv9() {
      --target=sparcv9-solaris2.11 \
      --prefix=$PREFIX -with-sysroot=$SYSROOT \
      --with-gnu-as --with-gnu-ld
-    
-    #checking whether the C compiler works... no
-    #configure: error: in `/export/home/opc/build-gcc':
-    #configure: error: C compiler cannot create executables
-
-    #configure:4465: checking whether the C compiler works
-    #configure:4487: gcc    conftest.c  >&5
-    #ld: fatal: library -lgcc: not found
-
-    ../gcc-10.1.0/./configure --build=x86_64-sun-solaris2.10 \
-    --host=x86_64-sun-solaris2.10 \
-    --target=sparc-sun-solaris2.10
-
 }
 
-collectdcc() {
+buildcollectd() {
     wget https://ips-4-lin-xgcc.s3.amazonaws.com/collectd-5.9-wpatch.tar.gz
     tar -zxvf collectd-5.9-wpatch.tar.gz
     cd collectd
     ./build.sh
-
-    #aclocal not found
-
-    ./configure --build=x86_64-pc-solaris2.11 --host=x86_64-pc-solaris2.11 --target=sparc-sun-solaris2.11
+    ./configure --build=x86_64-pc-solaris2.11 \
+    --host=x86_64-pc-solaris2.11 \
+    --target=sparc-sun-solaris2.11
     make
     make check-TESTS
     make install

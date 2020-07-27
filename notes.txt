@@ -33,7 +33,10 @@ https://gcc.gnu.org/onlinedocs/libiberty/Functions.html#Functions
 https://www.gnu.org/software/libc/
 https://sourceware.org/glibc/wiki/Testing/Builds
 https://gcc.gnu.org/onlinedocs/gccint/
-
+https://stackoverflow.com/questions/1726042/recipe-for-compiling-binutils-gcc-together
+http://www.linuxfromscratch.org/lfs/view/development/index.html
+https://gcc.gnu.org/install/build.html
+http://www.tldp.org/HOWTO/Software-Building-HOWTO.html
 sparc
 setup 11.4 env
 https://docs.oracle.com/cd/E53394_01/html/E54833/glyfz.html#scrolltoc
@@ -41,7 +44,8 @@ https://docs.oracle.com/cd/E37838_01/html/E61049/gnwre.html#scrolltoc
 https://gcc.gnu.org/onlinedocs/gcc/SPARC-Options.html
 https://wiki.debian.org/CrossToolchains
 https://vlsiwiki.soe.ucsc.edu/index.php/Desktop_Setup_-_Ubuntu_10.04
-
+https://buildroot.org/downloads/manual/manual.html#requirement
+https://wiki.debian.org/CrossToolchains
 
 rhel
 https://developers.redhat.com/products/developertoolset/hello-world#fndtn-windows
@@ -296,6 +300,9 @@ upgrade
 ##########  ##########  ##########\/
 
 ---query [select-options] [query-options]
+-q --list
+--package
+--group
 
 ##########  ##########  ##########\/
 ####  ####  gcc
@@ -427,6 +434,8 @@ GCC allows you to do this via cross compiling, You can download the source code 
 
 ./configure --build=x86_64-sun-solaris2.10 --host=x86_64-sun-solaris2.10 --target=sparc-sun-solaris2.10
 i386-pc-solaris2.11
+
+./configure --build=x86_64-redhat-linux --host=x86_64-redhat-linux --target=sparc-sun-solaris2.10
 
 ./configure --build=x86_64-linux-gnu --host=x86_64-pc-solaris2.11 --target=sparcv9-solaris2.11
 

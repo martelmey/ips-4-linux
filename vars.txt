@@ -1,0 +1,37 @@
+# Archs
+UBUNTU = x86_64-linux-gnu
+SOLX86 = x86_64-pc-solaris2.11
+SOLSPARC = sparcv9-solaris2.11
+REDHAT = x86_64-redhat-linux
+
+# Tool dirs
+# All:
+/usr/lib/
+# Solaris:
+/usr/gcc/9/bin
+/opt/developerstudio12.6/bin
+/opt/developerstudio12.6/lib
+/usr/gnu/sparcv9-sun-solaris2.11/bin
+/usr/gnu/sparcv9-sun-solaris2.11/lib
+/usr/gnu/x86_64-pc-solaris2.11/bin
+/usr/gnu/x86_64-pc-solaris2.11/lib
+# Sysroot:
+/opt/cross/sysroot/usr/include
+/opt/cross/sysroot/usr/lib
+/opt/cross/sysroot/lib
+# Redhat / Buildroot:
+#   Build:
+~/buildroot-2020.05/output/build
+#   Host:
+~/buildroot-2020.05/output/host/bin
+~/buildroot-2020.05/output/host/lib
+~/buildroot-2020.05/output/host/include
+~/buildroot-2020.05/output/host/usr
+~/buildroot-2020.05/output/host/share
+#   Target:
+~/buildroot-2020.05/output/target/bin
+~/buildroot-2020.05/output/target/lib
+~/buildroot-2020.05/output/target/usr
+~/buildroot-2020.05/output/target/usr/bin
+~/buildroot-2020.05/output/target/usr/lib
+~/buildroot-2020.05/output/target/usr/share
