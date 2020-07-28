@@ -46,6 +46,9 @@ https://wiki.debian.org/CrossToolchains
 https://vlsiwiki.soe.ucsc.edu/index.php/Desktop_Setup_-_Ubuntu_10.04
 https://buildroot.org/downloads/manual/manual.html#requirement
 https://wiki.debian.org/CrossToolchains
+https://sourceforge.net/p/courier/mailman/courier-users/thread/CAOVp3g2nHayv7YQdV279eC9eYT%2B1v%3DsYxcBP%3DzC7TVStXvWiCQ%40mail.gmail.com/#msg32327466
+https://lists.gnu.org/archive/html/bug-libtool/2016-01/msg00000.html
+https://stackoverflow.com/questions/37497069/compile-httpd-2-4-20-in-solaris-11-3-make-fails
 
 rhel
 https://developers.redhat.com/products/developertoolset/hello-world#fndtn-windows

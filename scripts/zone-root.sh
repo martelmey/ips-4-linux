@@ -40,12 +40,9 @@ tar -cf usrx11include.tar /usr/X11/include && mv usrx11include.tar /export/pkgs/
 tar -cf usropenwinlib.tar /usr/openwin/lib && mv usropenwinlib.tar /export/pkgs/splunk
 tar -cf usrdtlib.tar /usr/dt/lib && mv usrdtlib.tar /export/pkgs/splunk
 tar -cf usrx11lib.tar /usr/X11/lib && mv usrx11lib.tar /export/pkgs/splunk
-
 tar -cd usrlocallib.tar /usr/local/lib && mv usrlocallib.tar /export/pkgs/splunk
 tar -cd usrlocalinclude.tar /usr/local/include && mv usrlocalinclude.tar /export/pkgs/splunk
 
-#Option1
-#Relies on outbound/inbound access to 192.168.60.250:8008
 reposetupremote() {
     sudo su - root
     cd ~/
@@ -63,13 +60,27 @@ reposetupremote() {
     -c /root/pkg.oracle.com.certificate.pem \
     -G "*" -g https://pkg.oracle.com/solarisstudio/release \
     --proxy http://192.168.60.250:8008 solarisstudio
+}
 
+reposetuplocal() {
+    pkg install unzip
+    cd /export/pkgs/repos
+    unzip p31463805_1100_SOLARIS64.zip
+    chmod +x install-repo.sh
+    ./install-repo.sh -d /export/pkgs/repos/solsr
+}
+
+repofix() {
+    pkg set-publisher -G "*" -g /export/pkgs/repos/solsr solaris
+}
+
+installdeps() {
     pkg update --accept
     pkg install -–accept developerstudio-126
-    #PATH=/opt/developerstudio12.6/bin:$PATH
-    #export PATH
-    #MANPATH=/opt/developerstudio12.6/man:$MANPATH
-    #export MANPATH
+    PATH=/opt/developerstudio12.6/bin:$PATH
+    export PATH
+    MANPATH=/opt/developerstudio12.6/man:$MANPATH
+    export MANPATH
     pkg install git \
     developer/build/ant \
     developer/build/automake \
@@ -94,23 +105,8 @@ reposetupremote() {
     zip \
     flex
 
-    pkg update --accept
-}
-
-#Option2
-#Relies on access to 192.168.61.132:\export/utilities-kdcprd/pkgs
-reposetuplocal() {
-    #create once on knpdbdm01, set all other root zones to use
-    pkg install unzip
-    cd /export/pkgs/repos
-    unzip p31463805_1100_SOLARIS64.zip
-    chmod +x install-repo.sh
-    ./install-repo.sh -d /export/pkgs/repos/solsr
-    #Fri July17 Waiting here for unpack to finish
-}
-
-repofix() {
-    pkg set-publisher -G "*" -g /export/pkgs/repos/solsr solaris
+    echo "usr/perl5/5.22/bin" >> ~/.profile && source ~/.profile
+    export NM=/usr/bin/gnm
 }
 
 # wget https://ips-4-lin-xgcc.s3.amazonaws.com/collectd-5.9-wpatch.tar.gz
@@ -122,8 +118,26 @@ buildcollectd() {
     cp /export/pkgs/splunk/collectd-5.9-wpatch.tar.gz .
     tar -xvf collectd-5.9-wpatch.tar.gz && cd collectd
     ./build.sh
-    ./configure --host sparcv9-solaris2.11
-    make
+    
+    # export_symbols_cmds=
+    NM=/usr/bin/gnm PERL=/usr/perl5/5.26/bin/perl ./configure \
+    --with-gnu-ld \
+    --disable-perl \
+    --disable-python
+    gmake
+    gmake install
+
+    cd ~/ && mkdir proto && mkdir solaris-reference
+    cd proto && cp -r /opt/collectd . && cd ../
+    pkgsend generate proto | pkgfmt > collectd-splunk-sparc.p5m.1
+    (
+        echo "set name=pkg.fmri value='collectd@5.9.1'"
+        echo "set name=pkg.description value='Collectd 5.9 compiled for SPARC w/ write_splunk'"
+        echo "set name=pkg.summary value='Collectd SPARC'"
+        echo "set name=variant.arch value='sparc'"
+        echo "set name=info.classification value='org.opensolaris.category.2008:Applications/Accessories'"
+    )>>collectd-splunk-sparc.p5m.1
+    HTTP_PROXY=http://192.168.60.250:8008 pkglint -c ./solaris-reference -r http://pkg.oracle.com/solaris/release collectd-splunk-sparc.p5m.3.res
 }
 
 # wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
@@ -139,10 +153,4 @@ buildgcc() {
     --build sparcv9-solaris2.11 --target sparcv9-solaris2.11 \
     --with-nan-emulation \
     --with-fp-layout <>
-}
-
-
-
-pkgcollectd() {
-
 }

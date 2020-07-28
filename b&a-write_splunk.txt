@@ -1,0 +1,28 @@
+root@knpdb11:/export/pkgs/splunk/install/ufwinstall# ldd /opt/csw/lib/collectd/write_splunk.so
+ldd: /opt/csw/lib/collectd/write_splunk.so: ELF machine type: EM_386: is incompatible with system
+
+martel.meyers@knpdbdm01:/opt/collectd$ ldd lib/collectd/write_splunk.so
+        libcurl.so.4 =>  /usr/lib/64/libcurl.so.4
+        libnghttp2.so.14 =>      /usr/lib/64/libnghttp2.so.14
+        libidn2.so.0 =>  /usr/lib/64/libidn2.so.0
+        libssh2.so.1 =>  /usr/lib/64/libssh2.so.1
+        libssl.so.1.0.0 =>       /lib/64/libssl.so.1.0.0
+        libcrypto.so.1.0.0 =>    /lib/64/libcrypto.so.1.0.0
+        liblber-2.4.so.2 =>      /usr/lib/64/liblber-2.4.so.2
+        libldap_r-2.4.so.2 =>    /usr/lib/64/libldap_r-2.4.so.2
+        libz.so.1 =>     /lib/64/libz.so.1
+        libgssapi_krb5.so.2 =>   /usr/lib/64/libgssapi_krb5.so.2
+        libkrb5.so.3 =>  /usr/lib/64/libkrb5.so.3
+        libk5crypto.so.3 =>      /usr/lib/64/libk5crypto.so.3
+        libcom_err.so.3 =>       /usr/lib/64/libcom_err.so.3
+        libc.so.1 =>     /lib/64/libc.so.1
+        libresolv.so.2 =>        /usr/lib/sparcv9/libresolv.so.2
+        libsasl2.so.3 =>         /usr/lib/sparcv9/libsasl2.so.3
+        libkwarn.so.1 =>         /usr/lib/sparcv9/libkwarn.so.1
+        libkrb5support.so.0 =>   /usr/lib/sparcv9/libkrb5support.so.0
+        libucrypto.so.1 =>       /usr/lib/sparcv9/libucrypto.so.1
+        libelf.so.1 =>   /lib/64/libelf.so.1
+        libcryptoutil.so.1 =>    /lib/64/libcryptoutil.so.1
+        libbsm.so.1 =>   /lib/64/libbsm.so.1
+        libtsol.so.2 =>  /lib/64/libtsol.so.2
+        libinetutil.so.1 =>      /lib/64/libinetutil.so.1

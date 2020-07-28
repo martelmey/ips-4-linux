@@ -138,6 +138,8 @@ buildcollectd() {
     make
     make check-TESTS
     make install
+    
+    pkglint -c ./solaris-reference -r http://pkg.oracle.com/solaris/release collectd-splunk-sparc.p5m.3.res
 }
 
 repo () {
