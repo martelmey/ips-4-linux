@@ -138,6 +138,11 @@ buildcollectd() {
         echo "set name=info.classification value='org.opensolaris.category.2008:Applications/Accessories'"
     )>>collectd-splunk-sparc.p5m.1
     HTTP_PROXY=http://192.168.60.250:8008 pkglint -c ./solaris-reference -r http://pkg.oracle.com/solaris/release collectd-splunk-sparc.p5m.3.res
+    pkgrepo create hialplis-sunos
+    pkgrepo -s hialplis-sunos set publisher/prefix=hialplis
+    pkgesend -s hialplis-sunos publish -d proto collectd-splunk-sparc.p5m.3.res
+    pkgrepo verify -s hialplis-sunos
+    pkgsign -s hialplis-sunos -a sha256 '*'
 }
 
 # wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
@@ -152,5 +157,5 @@ buildgcc() {
     ../gcc-10.1.0/configure --host x86_64-pc-solaris2.11 \
     --build sparcv9-solaris2.11 --target sparcv9-solaris2.11 \
     --with-nan-emulation \
-    --with-fp-layout <>
+    --with-fp-layout
 }
