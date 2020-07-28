@@ -16,3 +16,81 @@ pkglint -c ./solaris-reference -r http://pkg.oracle.com/solaris/release collectd
 pkglint -c ./solaris-reference -r file:///export/pkgs/repos/solsr collectd-splunk-sparc.p5m.3.res
 
 HTTP_PROXY=http://192.168.60.250:8008 pkglint -c ./solaris-reference -r http://pkg.oracle.com/solaris/release collectd-splunk-sparc.p5m.3.res
+
+pkg://hialplis/collectd@5.9.1,5.11:20200728T182037Z
+PUBLISHED
+
+https://updates.oracle.com/Orion/PatchDetails/process_form
+?patch_num=31463803
+&aru=23688499
+&release=400000110000
+&plat_lang=23P
+&patch_num_id=3722325
+&
+
+https://updates.oracle.com/Orion/SimpleSearch/process_form
+?search_type=prod
+&product=17450
+&product_disp=Solaris+Operating+System+%28solaris%29
+&product_any=Select+a+Product+or+Product+Family
+&product_none=
+&product_auto=on
+&release=400000110000
+&release_any=Select+a+Release&release_none=
+&release_auto=on
+&patch_type=all
+&priority=any
+&plat_lang=23P
+&display_type=
+&search_style=8
+&orderby=
+&direction=
+&old_type_list=
+&gobuttonpressed=
+&sortcolpressed=
+&tab_number=
+&email=martel.meyers%40cgi.com
+&userid=o-martel.meyers%40cgi.com
+&c_release_parent=product
+&c_product_child=release
+
+svc:/network/cswcollectd:default
+logfile      /var/svc/log/network-cswcollectd:default.log
+restarter    svc:/system/svc/restarter:default
+manifest     /var/opt/csw/svc/manifest/network/cswcollectd.xml
+
+root@soldev:~# svcprop -a cswcollectd
+general/complete astring 
+general/enabled boolean true
+general/package astring CSWcollectd
+general/single_instance boolean true
+fs/entities fmri svc:/system/filesystem/local
+fs/grouping astring require_all
+fs/restart_on astring none
+fs/type astring service
+manifestfiles/var_opt_csw_svc_manifest_network_cswcollectd_xml astring /var/opt/csw/svc/manifest/network/cswcollectd.xml
+net/entities fmri svc:/network/loopback
+net/grouping astring require_all
+net/restart_on astring none
+net/type astring service
+restart/exec astring /var/opt/csw/svc/method/svc-cswcollectd\ restart
+restart/timeout_seconds count 180
+restart/type astring method
+start/exec astring /var/opt/csw/svc/method/svc-cswcollectd\ start
+start/timeout_seconds count 120
+start/type astring method
+stop/exec astring /var/opt/csw/svc/method/svc-cswcollectd\ stop
+stop/timeout_seconds count 60
+stop/type astring method
+restarter/auxiliary_state astring dependencies_satisfied
+restarter/contract count 5038
+restarter/logfile astring /var/svc/log/network-cswcollectd:default.log
+restarter/next_state astring none
+restarter/start_method_timestamp time 1595973259.152648000
+restarter/start_method_waitstatus integer 0
+restarter/start_pid count 22963
+restarter/state astring online
+restarter/state_timestamp time 1595973259.165867000
+restarter_actions/auxiliary_fmri astring svc:/network/ssh:default
+restarter_actions/auxiliary_tty boolean false
+restarter_actions/enable_complete time 1595973259.352700000

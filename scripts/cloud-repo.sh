@@ -74,20 +74,6 @@ installdeps() {
     cd /usr/bin/aclocal
     cp aclocal-1.15 aclocal-1.15.bak
     mv aclocal-1.15 aclocal
-
-    # /usr/gcc/9/bin
-    # /usr/lib/
-    # /opt/developerstudio12.6/bin
-    # /opt/developerstudio12.6/lib
-    # /usr/gnu/sparcv9-sun-solaris2.11/bin
-    # /usr/gnu/sparcv9-sun-solaris2.11/lib
-    # /usr/gnu/x86_64-pc-solaris2.11/bin
-    # /usr/gnu/x86_64-pc-solaris2.11/lib
-    # /opt/cross/sysroot/usr/include
-    # /opt/cross/sysroot/usr/lib
-    # /opt/cross/sysroot/lib
-
-    # /usr/share/automake-1.15
 }
 
 buildroot() {
@@ -140,6 +126,7 @@ buildcollectd() {
     make install
     
     pkglint -c ./solaris-reference -r http://pkg.oracle.com/solaris/release collectd-splunk-sparc.p5m.3.res
+    pkglint -c ./solaris-reference -r https://pkg.oracle.com/solaris/support/ collectd-splunk-sparc.p5m.3.res
 }
 
 repo () {
@@ -160,4 +147,14 @@ repo () {
     #--proxy#1.0 192.168.60.250:8008 \
     #--proxytunnel \
     #--trace#-ascii /root/remote_summary.trc
+}
+
+cswrepo() {
+    # Install CSWcollectd, use as template for service creation:
+    export PATH=$PATH:/opt/csw/bin
+    pkgutil -U
+    pkgutil -y -i collectd 
+    pkgchk -L CSWcollectd
+
+    
 }

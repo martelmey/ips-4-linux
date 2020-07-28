@@ -71,7 +71,15 @@ reposetuplocal() {
 }
 
 repofix() {
-    pkg set-publisher -G "*" -g /export/pkgs/repos/solsr solaris
+    # Change request:
+    # (1) Correct publisher
+    # (2) Configure svc:/pkg/mirror
+    pkg set-publisher -k /root/pkg.oracle.com.key.pem \
+    -c /root/pkg.oracle.com.certificate.pem \
+    -G "*" -g https://pkg.oracle.com/solaris/support/ \
+    --proxy http://192.168.60.250:8008 solaris
+
+    svcadm enable mirror:default
 }
 
 installdeps() {
@@ -111,25 +119,25 @@ installdeps() {
 
 # wget https://ips-4-lin-xgcc.s3.amazonaws.com/collectd-5.9-wpatch.tar.gz
 buildcollectd() {
-    # Build on SPARC, runs on SPARC
-    pkg install bison gcc SUNWpkgcmds libtool autoconf automake pkg-config flex
-    pkg install pkg:/runtime/perl-526@5.26.2-11.4.0.0.1.14.0
+    pkg install bison gcc SUNWpkgcmds libtool autoconf automake pkg-config flex runtime/perl-526@5.26.2
     cd /export/home/martel.meyers/build
     cp /export/pkgs/splunk/collectd-5.9-wpatch.tar.gz .
     tar -xvf collectd-5.9-wpatch.tar.gz && cd collectd
     ./build.sh
-    
-    # export_symbols_cmds=
     NM=/usr/bin/gnm PERL=/usr/perl5/5.26/bin/perl ./configure \
     --with-gnu-ld \
     --disable-perl \
     --disable-python
+
+    # remove global-pipe from libtool: export_symbols_cmds=
     gmake
     gmake install
 
+    # Generate package
     cd ~/ && mkdir proto && mkdir solaris-reference
     cd proto && cp -r /opt/collectd . && cd ../
     pkgsend generate proto | pkgfmt > collectd-splunk-sparc.p5m.1
+
     (
         echo "set name=pkg.fmri value='collectd@5.9.1'"
         echo "set name=pkg.description value='Collectd 5.9 compiled for SPARC w/ write_splunk'"
@@ -137,12 +145,32 @@ buildcollectd() {
         echo "set name=variant.arch value='sparc'"
         echo "set name=info.classification value='org.opensolaris.category.2008:Applications/Accessories'"
     )>>collectd-splunk-sparc.p5m.1
-    HTTP_PROXY=http://192.168.60.250:8008 pkglint -c ./solaris-reference -r http://pkg.oracle.com/solaris/release collectd-splunk-sparc.p5m.3.res
-    pkgrepo create hialplis-sunos
-    pkgrepo -s hialplis-sunos set publisher/prefix=hialplis
-    pkgesend -s hialplis-sunos publish -d proto collectd-splunk-sparc.p5m.3.res
-    pkgrepo verify -s hialplis-sunos
-    pkgsign -s hialplis-sunos -a sha256 '*'
+
+    # Get & resolve package deps
+    pkgdepend generate -md proto collectd-splunk-sparc.p5m.1 | pkgfmt > collectd-splunk-sparc.p5m.3
+    pkgdepend resolve -m collectd-splunk-sparc.p5m.3
+
+    # Create hialplis-ports
+    cd /export/pkgs/repos
+    mkdir cache
+    pkgrepo create hialplis-ports
+    pkgrepo -s hialplis-ports set publisher/prefix=hialplis-ports
+
+    # Copy deps
+    http_proxy=http://192.168.60.250:8008 pkgrecv -s https://pkg.oracle.com/solaris/support/ \
+    -d hialplis-ports -c cache -m all-versions \
+    --key ~/pkg.oracle.com.key.pem \
+    --cert ~/pkg.oracle.com.certificate.pem \
+    -r developer/base-developer-utilities library/libidn2 library/libssh2 library/libxml2 library/nghttp2 library/security/libgpg-error \
+    library/security/openssl library/zlib security/kerberos-5 system/library/libpcap system/library/math \
+    system/library/security/libgcrypt system/library system/management/snmp/net-snmp system/network/ldap/openldap web/curl
+
+    # Verify package & deps
+    cd /export/home/martel.meyers
+    http_proxy=http://192.168.60.250:8008 pkglint -c ./solaris-reference -r https://pkg.oracle.com/solaris/support/ collectd-splunk-sparc.p5m.3.res
+    pkgesend -s /export/pkgs/repos/hialplis-ports publish -d proto collectd-splunk-sparc.p5m.3.res
+    pkgrepo verify -s hialplis
+    pkgsign -s hialplis -a sha256 '*'
 }
 
 # wget https://ips-4-lin-xgcc.s3.amazonaws.com/gcc-10.1.0-wreqs.tar.gz
